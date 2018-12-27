@@ -1,0 +1,49 @@
+
+
+<div class="container">
+    <button class="btn btn-secondary" (click)=getCurrentTemp()>Search</button>
+    <button class="btn btn-primary" (click)=findCurrentForecast()>Forecast</button>
+
+  <div class="row">
+    <div class="col-sm-3">col1 {{this.data}}
+
+    </div>
+    <div class="col-sm-3" >col2 {{weatherData2.cityName}}
+
+    </div>
+    <div class="col-sm-3" >col3 {{ testVar }}
+
+    </div>
+    <div class="col-sm-3">col4 {{ this.data2 }}
+
+    </div>
+
+    <table class="table">
+      <th class="thread-dark">
+        <tr>
+          <th>Date</th>
+          <th>06:00</th>
+          <th>09:00</th>
+          <th>12:00</th>
+          <th>15:00</th>
+          <th>18:00</th>
+          <th>21:00</th>
+          <th>00:00</th>
+          <th>03:00</th>
+        </tr>
+        <tr>
+          <td>Today</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </th>
+    </table>
+
+  </div>
+</div>
