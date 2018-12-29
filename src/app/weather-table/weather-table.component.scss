@@ -1,0 +1,29 @@
+tr:nth-child(even) {
+	background-color: #eee;
+}
+
+tr:nth-child(odd) {
+	background-color: white;
+}
+
+// table.extras tr:last-child td:first-child {
+// 	-moz-border-bottom-left-radius: 13px;
+// 	-webkit-border-bottom-left-radius: 13px;
+//     border-bottom-left-radius: 13px;
+//     border-top-left-radius: 13px;
+//     border-bottom-right-radius: 13px;
+// }
+
+td {
+    padding: .8rem;
+}
+
+table {
+    // border-collapse: separate;
+    font-size: 1rem;
+    color: #222;
+  }
+
+  li {
+    list-style-type: none;
+  }
