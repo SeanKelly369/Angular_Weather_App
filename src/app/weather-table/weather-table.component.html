@@ -16,31 +16,31 @@
       <tr id="weatherIcons">
         <td></td>
         <td class="weatherIcons">
-          <app-weather-table-switch></app-weather-table-switch>
+          <app-weather-table-switch-now></app-weather-table-switch-now>
         </td>
         <td class="weatherIcons">
-          <app-weather-table-switch></app-weather-table-switch>
+          <app-weather-table-switch-three-hrs></app-weather-table-switch-three-hrs>
         </td>
         <td class="weatherIcons">
-          <app-weather-table-switch></app-weather-table-switch>
+            <app-weather-table-switch-nine-hrs></app-weather-table-switch-nine-hrs>
+          </td>
+        <td class="weatherIcons">
+          <app-weather-table-switch-fifteen-hrs></app-weather-table-switch-fifteen-hrs>
         </td>
         <td class="weatherIcons">
-          <app-weather-table-switch></app-weather-table-switch>
+          <app-weather-table-switch-day2></app-weather-table-switch-day2>
         </td>
         <td class="weatherIcons">
-          <app-weather-table-switch></app-weather-table-switch>
+          <app-weather-table-switch-day3></app-weather-table-switch-day3>
         </td>
         <td class="weatherIcons">
-          <app-weather-table-switch></app-weather-table-switch>
+          <app-weather-table-switch-day4></app-weather-table-switch-day4>
         </td>
         <td class="weatherIcons">
-          <app-weather-table-switch></app-weather-table-switch>
+          <app-weather-table-switch-day5></app-weather-table-switch-day5>
         </td>
         <td class="weatherIcons">
-          <app-weather-table-switch></app-weather-table-switch>
-        </td>
-        <td class="weatherIcons">
-          <app-weather-table-switch></app-weather-table-switch>
+          <app-weather-table-switch-day6></app-weather-table-switch-day6>
         </td>
       </tr>
       <tr>
@@ -53,7 +53,7 @@
         <td>{{fiveDayForecast.list[15].main.temp - 273.15 | number: '1.0-0'}}°C</td>
         <td>{{fiveDayForecast.list[23].main.temp - 273.15 | number: '1.0-0'}}°C</td>
         <td>{{fiveDayForecast.list[31].main.temp - 273.15 | number: '1.0-0'}}°C</td>
-        <td>{{fiveDayForecast.list[37].main.temp - 273.15 | number: '1.0-0'}}°C</td>
+        <td>{{fiveDayForecast.list[36].main.temp - 273.15 | number: '1.0-0'}}°C</td>
       </tr>
       <tr>
         <td>Humidity</td>
@@ -77,7 +77,7 @@
         <td>{{fiveDayForecast.list[15].main.pressure | number: '1.0-0'}} mb</td>
         <td>{{fiveDayForecast.list[23].main.pressure | number: '1.0-0'}} mb</td>
         <td>{{fiveDayForecast.list[31].main.pressure | number: '1.0-0'}} mb</td>
-        <td>{{fiveDayForecast.list[37].main.pressure | number: '1.0-0'}} mb</td>
+        <td>{{fiveDayForecast.list[36].main.pressure | number: '1.0-0'}} mb</td>
       </tr>
       <tr>
         <td>Wind Speed</td>
@@ -89,7 +89,7 @@
         <td>{{fiveDayForecast.list[15].wind.speed}} km/h</td>
         <td>{{fiveDayForecast.list[23].wind.speed}} km/h</td>
         <td>{{fiveDayForecast.list[31].wind.speed}} km/h</td>
-        <td>{{fiveDayForecast.list[37].wind.speed}} km/h</td>
+        <td>{{fiveDayForecast.list[36].wind.speed}} km/h</td>
       </tr>
       <tr>
         <td>Wind Direction</td>
@@ -101,7 +101,7 @@
         <td>{{fiveDayForecast.list[15].wind.deg | number: '1.0-0'}}°</td>
         <td>{{fiveDayForecast.list[23].wind.deg | number: '1.0-0'}}°</td>
         <td>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0'}}°</td>
-        <td>{{fiveDayForecast.list[37].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[36].wind.deg | number: '1.0-0'}}°</td>
       </tr>
       <tr *ngFor="let fiveDayForecast of ForeCasts" [ngSwitch]="fiveDayForecast.list[1].weather[0].id">
         <td>
