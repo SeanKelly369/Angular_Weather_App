@@ -1,49 +1,124 @@
-
-
 <div class="container">
-    <button class="btn btn-secondary" (click)=getCurrentTemp()>Search</button>
-    <button class="btn btn-primary" (click)=findCurrentForecast()>Forecast</button>
-
-  <div class="row">
-    <div class="col-sm-3">col1 {{this.data}}
-
-    </div>
-    <div class="col-sm-3" >col2 {{weatherData2.cityName}}
-
-    </div>
-    <div class="col-sm-3" >col3 {{ testVar }}
-
-    </div>
-    <div class="col-sm-3">col4 {{ this.data2 }}
-
-    </div>
-
-    <table class="table">
-      <th class="thread-dark">
-        <tr>
-          <th>Date</th>
-          <th>06:00</th>
-          <th>09:00</th>
-          <th>12:00</th>
-          <th>15:00</th>
-          <th>18:00</th>
-          <th>21:00</th>
-          <th>00:00</th>
-          <th>03:00</th>
-        </tr>
-        <tr>
-          <td>Today</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </th>
-    </table>
-
-  </div>
+  <table class="table">
+    <th class="thread-dark">
+      <tr>
+        <th>{{currentWeather.name}}</th>
+        <th>Now</th>
+        <th>{{currentTime + (3600000*3) | date: 'shortTime'}}</th>
+        <th>{{currentTime + (3600000*9) | date: 'shortTime'}}</th>
+        <th>{{currentTime + (3600000*15) | date: 'shortTime'}}</th>
+        <th>{{currentTime + (3600000*24) | date: 'MMM d'}}</th>
+        <th>{{currentTime + (3600000*48) | date: 'MMM d'}}</th>
+        <th>{{currentTime + (3600000*72) | date: 'MMM d'}}</th>
+        <th>{{currentTime + (3600000*96) | date: 'MMM d'}}</th>
+        <th>{{currentTime + (3600000*120) | date: 'MMM d'}}</th>
+      </tr>
+      <tr id="weatherIcons">
+        <td></td>
+        <td class="weatherIcons">
+          <app-weather-table-switch></app-weather-table-switch>
+        </td>
+        <td class="weatherIcons">
+          <app-weather-table-switch></app-weather-table-switch>
+        </td>
+        <td class="weatherIcons">
+          <app-weather-table-switch></app-weather-table-switch>
+        </td>
+        <td class="weatherIcons">
+          <app-weather-table-switch></app-weather-table-switch>
+        </td>
+        <td class="weatherIcons">
+          <app-weather-table-switch></app-weather-table-switch>
+        </td>
+        <td class="weatherIcons">
+          <app-weather-table-switch></app-weather-table-switch>
+        </td>
+        <td class="weatherIcons">
+          <app-weather-table-switch></app-weather-table-switch>
+        </td>
+        <td class="weatherIcons">
+          <app-weather-table-switch></app-weather-table-switch>
+        </td>
+        <td class="weatherIcons">
+          <app-weather-table-switch></app-weather-table-switch>
+        </td>
+      </tr>
+      <tr>
+        <td>Temperature</td>
+        <td>{{currentWeather.main.temp -273.15 | number:'1.0-0'}}°C</td>
+        <td>{{fiveDayForecast.list[1].main.temp - 273.15 | number: '1.0-0'}}°C</td>
+        <td>{{fiveDayForecast.list[3].main.temp - 273.15 | number: '1.0-0'}}°C</td>
+        <td>{{fiveDayForecast.list[5].main.temp - 273.15 | number: '1.0-0'}}°C</td>
+        <td>{{fiveDayForecast.list[7].main.temp - 273.15 | number: '1.0-0'}}°C</td>
+        <td>{{fiveDayForecast.list[15].main.temp - 273.15 | number: '1.0-0'}}°C</td>
+        <td>{{fiveDayForecast.list[23].main.temp - 273.15 | number: '1.0-0'}}°C</td>
+        <td>{{fiveDayForecast.list[31].main.temp - 273.15 | number: '1.0-0'}}°C</td>
+        <td>{{fiveDayForecast.list[37].main.temp - 273.15 | number: '1.0-0'}}°C</td>
+      </tr>
+      <tr>
+        <td>Humidity</td>
+        <td>{{currentWeather.main.humidity}}%</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td>Air Pressure</td>
+        <td>{{currentWeather.main.pressure | number: '1.0-0'}} mb</td>
+        <td>{{fiveDayForecast.list[1].main.pressure | number: '1.0-0'}} mb</td>
+        <td>{{fiveDayForecast.list[3].main.pressure | number: '1.0-0'}} mb</td>
+        <td>{{fiveDayForecast.list[5].main.pressure | number: '1.0-0'}} mb</td>
+        <td>{{fiveDayForecast.list[7].main.pressure | number: '1.0-0'}} mb</td>
+        <td>{{fiveDayForecast.list[15].main.pressure | number: '1.0-0'}} mb</td>
+        <td>{{fiveDayForecast.list[23].main.pressure | number: '1.0-0'}} mb</td>
+        <td>{{fiveDayForecast.list[31].main.pressure | number: '1.0-0'}} mb</td>
+        <td>{{fiveDayForecast.list[37].main.pressure | number: '1.0-0'}} mb</td>
+      </tr>
+      <tr>
+        <td>Wind Speed</td>
+        <td>{{currentWeather.wind.speed}} km/h</td>
+        <td>{{fiveDayForecast.list[1].wind.speed}} km/h</td>
+        <td>{{fiveDayForecast.list[3].wind.speed}} km/h</td>
+        <td>{{fiveDayForecast.list[5].wind.speed}} km/h</td>
+        <td>{{fiveDayForecast.list[7].wind.speed}} km/h</td>
+        <td>{{fiveDayForecast.list[15].wind.speed}} km/h</td>
+        <td>{{fiveDayForecast.list[23].wind.speed}} km/h</td>
+        <td>{{fiveDayForecast.list[31].wind.speed}} km/h</td>
+        <td>{{fiveDayForecast.list[37].wind.speed}} km/h</td>
+      </tr>
+      <tr>
+        <td>Wind Direction</td>
+        <td>{{currentWeather.wind.deg}}°</td>
+        <td>{{fiveDayForecast.list[1].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[3].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[5].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[7].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[15].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[23].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[37].wind.deg | number: '1.0-0'}}°</td>
+      </tr>
+      <tr *ngFor="let fiveDayForecast of ForeCasts" [ngSwitch]="fiveDayForecast.list[1].weather[0].id">
+        <td>
+          <span *ngSwitchCase="'500'">
+            <img *ngSwitchCase="'500'" width="50rem" src="../assets/icons/wi-day-raindrops.svg" alt="">
+          </span>
+          <img *ngSwitchCase="'501'" width="50rem" src="../assets/icons/wi-day-rain.svg" alt="">
+          <img *ngSwitchCase="'502'" width="50rem" src="../assets/icons/wi-day-rain-mix.svg" alt="">
+          <img *ngSwitchCase="'503'" width="50rem" src="../assets/icons/wi-day-rain.svg" alt="">
+          <img *ngSwitchCase="'504'" width="50rem" src="../assets/icons/wi-day-rain.svg" alt="">
+          <img *ngSwitchCase="'511'" width="50rem" src="../assets/icons/wi-day-sleet.svg" alt="">
+          <img *ngSwitchCase="'520'" width="50rem" src="../assets/icons/wi-showers.svg" alt="">
+          <img *ngSwitchCase="'521'" width="50rem" src="../assets/icons/wi-showers.svg" alt="">
+          <img *ngSwitchCase="'522'" width="50rem" src="../assets/icons/wi-day-storm-showers.svg" alt="">
+          <img *ngSwitchCase="'531'" width="50rem" src="../assets/icons/wi-day-rain-mix.svg" alt="">
+        </td>
+      </tr>
+    </th>
+  </table>
 </div>

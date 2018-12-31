@@ -1,0 +1,11 @@
+<span [ngSwitch]="fiveDayForecast.list[1].weather[0].id">
+  <span *ngSwitchCase="'500'">
+    <img width="50rem" src="../assets/icons/wi-day-rain.svg">Works
+  </span>
+  <span *ngSwitchCase="'501'">
+    <img width="50rem" src="../assets/icons/wi-day-sleet.svg">Works 3
+  </span>
+  <span *ngSwitchDefault>
+    <img width="50rem" src="../assets/icons/wi-day-rain.svg">Works
+  </span>
+</span>

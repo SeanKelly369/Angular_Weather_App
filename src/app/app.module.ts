@@ -11,6 +11,7 @@ import { WeatherNewsComponent } from './weather-news/weather-news.component';
 import { WeatherTableComponent } from './weather-table/weather-table.component';
 
 import { WeatherService } from './weather.service';
+import { WeatherTableSwitchComponent } from './weather-table/weather-table-switch/weather-table-switch.component';
 // import { LocalStorageService } from 'angular-2-local-storage';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { WeatherService } from './weather.service';
     AppComponent,
     BannerComponent,
     WeatherNewsComponent,
-    WeatherTableComponent
+    WeatherTableComponent,
+    WeatherTableSwitchComponent
   ],
   imports: [
     BrowserModule,
