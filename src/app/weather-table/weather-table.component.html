@@ -1,3 +1,5 @@
+<!-- <button class="btn btn-primary" (click)="getLocation()">Get Geo Location</button> -->
+
 <div class="container">
   <table class="table">
     <th class="thread-dark">
@@ -94,7 +96,11 @@
       <tr>
         <td>Wind Direction</td>
         <td>{{currentWeather.wind.deg}}°</td>
-        <td>{{fiveDayForecast.list[1].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[1].wind.deg | number: '1.0-0' }}° 
+          <span> 
+            <img width="10rem" src="../assets/icons/winds/0deg.svg" alt="">
+          </span>
+        </td>
         <td>{{fiveDayForecast.list[3].wind.deg | number: '1.0-0'}}°</td>
         <td>{{fiveDayForecast.list[5].wind.deg | number: '1.0-0'}}°</td>
         <td>{{fiveDayForecast.list[7].wind.deg | number: '1.0-0'}}°</td>
@@ -102,22 +108,6 @@
         <td>{{fiveDayForecast.list[23].wind.deg | number: '1.0-0'}}°</td>
         <td>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0'}}°</td>
         <td>{{fiveDayForecast.list[36].wind.deg | number: '1.0-0'}}°</td>
-      </tr>
-      <tr *ngFor="let fiveDayForecast of ForeCasts" [ngSwitch]="fiveDayForecast.list[1].weather[0].id">
-        <td>
-          <span *ngSwitchCase="'500'">
-            <img *ngSwitchCase="'500'" width="50rem" src="../assets/icons/wi-day-raindrops.svg" alt="">
-          </span>
-          <img *ngSwitchCase="'501'" width="50rem" src="../assets/icons/wi-day-rain.svg" alt="">
-          <img *ngSwitchCase="'502'" width="50rem" src="../assets/icons/wi-day-rain-mix.svg" alt="">
-          <img *ngSwitchCase="'503'" width="50rem" src="../assets/icons/wi-day-rain.svg" alt="">
-          <img *ngSwitchCase="'504'" width="50rem" src="../assets/icons/wi-day-rain.svg" alt="">
-          <img *ngSwitchCase="'511'" width="50rem" src="../assets/icons/wi-day-sleet.svg" alt="">
-          <img *ngSwitchCase="'520'" width="50rem" src="../assets/icons/wi-showers.svg" alt="">
-          <img *ngSwitchCase="'521'" width="50rem" src="../assets/icons/wi-showers.svg" alt="">
-          <img *ngSwitchCase="'522'" width="50rem" src="../assets/icons/wi-day-storm-showers.svg" alt="">
-          <img *ngSwitchCase="'531'" width="50rem" src="../assets/icons/wi-day-rain-mix.svg" alt="">
-        </td>
       </tr>
     </th>
   </table>
