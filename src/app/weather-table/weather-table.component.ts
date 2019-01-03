@@ -19,6 +19,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
   currentTime = Date.now();
   fiveDayForecast: any;
   currentWeather: any = {};
+  sunRise:any;
   flag: boolean;
   test: string = "testing";
   geolocationPosition:any;
@@ -36,6 +37,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     // Using a hack job to solve the issue with the API passing data to local storage after the DOM gets populated with null data
     let y = '';
     let t = '';
+    let s = '';
 
     setTimeout(() => (this._weatherService.currentLocalWeather,
       t = localStorage.getItem("currentWeather"),
@@ -44,7 +46,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
 
       this._weatherService.fiveDayForecast,
       y = localStorage.getItem("forecastWeather"),
-      this.fiveDayForecast = JSON.parse(y))
+      this.fiveDayForecast = JSON.parse(y),
+
+      this._weatherService.sunriseSunset,
+      s = localStorage.getItem("sunriseSunsetToday"),
+      this.sunRise = JSON.parse(s))
       , 1000);
 
       setInterval(() => (this._weatherService.currentLocalWeather,
@@ -56,6 +62,16 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         y = localStorage.getItem("forecastWeather"),
         this.fiveDayForecast = JSON.parse(y))
         , 7500);  
+
+        setInterval(() => (this._weatherService.currentLocalWeather,
+          t = localStorage.getItem("currentWeather"),
+          this.currentWeather = JSON.parse(t),
+          // console.log("interval called"),
+    
+          this._weatherService.fiveDayForecast,
+          y = localStorage.getItem("forecastWeather"),
+          this.fiveDayForecast = JSON.parse(y))
+          , 24000);  
 
     this._weatherService.currentLocalWeather;
     t = localStorage.getItem("currentWeather");

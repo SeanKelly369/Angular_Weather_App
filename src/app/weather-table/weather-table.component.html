@@ -2,7 +2,6 @@
 
 <div class="container">
   <table class="table">
-    <th class="thread-dark">
       <tr>
         <th>{{currentWeather.name}}</th>
         <th>Now</th>
@@ -60,14 +59,14 @@
       <tr>
         <td>Humidity</td>
         <td>{{currentWeather.main.humidity}}%</td>
-        <td>N/A</td>
-        <td>N/A</td>
-        <td>N/A</td>
-        <td>N/A</td>
-        <td>N/A</td>
-        <td>N/A</td>
-        <td>N/A</td>
-        <td>N/A</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
       </tr>
       <tr>
         <td>Air Pressure</td>
@@ -109,6 +108,29 @@
         <td>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0'}}°</td>
         <td>{{fiveDayForecast.list[36].wind.deg | number: '1.0-0'}}°</td>
       </tr>
-    </th>
+      <tr>
+        <td>Sunrise</td>
+        <td>{{sunRise.results.sunrise}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Sunset</td>
+        <td>{{sunRise.results.sunset}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
   </table>
 </div>
