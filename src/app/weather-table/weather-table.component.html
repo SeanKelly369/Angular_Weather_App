@@ -94,7 +94,7 @@
       </tr>
       <tr>
         <td>Wind Direction</td>
-        <td>{{currentWeather.wind.deg}}°</td>
+        <td>{{currentWeather.wind.deg || 0}}°</td>
         <td>{{fiveDayForecast.list[1].wind.deg | number: '1.0-0' }}° 
           <span> 
             <img width="10rem" src="../assets/icons/winds/0deg.svg" alt="">
@@ -108,9 +108,10 @@
         <td>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0'}}°</td>
         <td>{{fiveDayForecast.list[36].wind.deg | number: '1.0-0'}}°</td>
       </tr>
-      <!-- <tr>
+      <tr>
         <td>Sunrise</td>
-        <td>{{sunRise.results.sunrise}}</td>
+        <!-- <td>{{sunRise.results.sunrise}}</td> -->
+        <td>{{currentWeather.sys.sunrise | date: 'shortTime'}}</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
@@ -122,7 +123,8 @@
       </tr>
       <tr>
         <td>Sunrise</td>
-        <td>{{sunRise.results.sunset}}</td>
+        <!-- <td>{{sunRise.results.sunset}}</td> -->
+        <td>{{currentWeather.sys.sunset | date: 'shortTime'}}</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
@@ -131,6 +133,6 @@
         <td>-</td>
         <td>-</td>
         <td>-</td>
-      </tr> -->
+      </tr>
   </table>
 </div>
