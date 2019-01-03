@@ -4,7 +4,6 @@ import { map, startWith } from 'rxjs/operators';
 
 import 'rxjs/add/observable/interval';
 import { interval } from 'rxjs/observable/interval';
-import { formatDate } from '@angular/common';
 
 const CURRENT_WEATHER_CACHE_KEY = 'currentWeather';
 const FORECAST_WEATHER_CACHE_KEY = 'forecastWeather';
@@ -60,32 +59,39 @@ export class WeatherService {
                 this.getCurrentWeather();
                 this.getForeCast();
                 setTimeout(() => 
-                  this.getSunriseSunset()
+                  this.getSunriseSunset(),
+                  this.lat = position.coords.latitude,
+                  this.lon = position.coords.longitude
                 , 1000);
-                setTimeout(() => 
-                  this.getSunriseSunsetTomorrow()
-                , 1000);
+                // setTimeout(() => 
+                //   this.getSunriseSunsetTomorrow()
+                // , 6000);
 
-                setTimeout(() => 
-                  this.getSunriseSunset()
-                , 2500);
-                setTimeout(() => 
-                  this.getSunriseSunsetTomorrow()
-                , 2500);
+                setTimeout(() => (
+                  this.getSunriseSunset(),
+                  this.getCurrentWeather(),
+                  this.getForeCast()
+                , 2500));
+                // setTimeout(() => 
+                //   this.getSunriseSunsetTomorrow()
+                // , 2500);
 
-                setTimeout(() => 
-                  this.getSunriseSunset()
-                , 5000);
-                setTimeout(() => 
-                  this.getSunriseSunsetTomorrow()
-                , 5000);
+                setTimeout(() => (
+                  this.getSunriseSunset(),
+                  this.getCurrentWeather(),
+                  this.getForeCast(),
+                  console.log("5000 called")
+                , 5000));
+                // setTimeout(() => 
+                //   this.getSunriseSunsetTomorrow()
+                // , 5000);
 
                 setTimeout(() => 
                   this.getSunriseSunset()
                 , 15000);
-                setTimeout(() => 
-                  this.getSunriseSunsetTomorrow()
-                , 15000);
+                // setTimeout(() => 
+                //   this.getSunriseSunsetTomorrow()
+                // , 15000);
 
 
                 // this.getSunriseSunsetDay2();
@@ -132,21 +138,23 @@ export class WeatherService {
     )
   }
 
-  getSunriseSunsetTomorrow() {
-    // Sunrise and sunset tomorrow
-    this.currentSunriseSunsetPlusOne = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.lat}&lng=${this.lon}&date=${this.tomorrow}`)
-    .pipe(
-      map(data2 => data2)
-    );
+  // getSunriseSunsetTomorrow() {
+  //   // Sunrise and sunset tomorrow
+  //   this.currentSunriseSunsetPlusOne = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.lat}&lng=${this.lon}&date=${this.tomorrow}`)
+  //   .pipe(
+  //     map(data2 => data2)
+  //   );
 
-    this.currentSunriseSunsetPlusOne.subscribe(next => {
-      localStorage[SUNRISE_SUNSET_TOMORROW_CACHE_KEY] = JSON.stringify(next);
-    });
+  //   this.currentSunriseSunsetPlusOne.subscribe(next => {
+  //     localStorage[SUNRISE_SUNSET_TOMORROW_CACHE_KEY] = JSON.stringify(next);
+  //   });
 
-    this.currentSunriseSunsetPlusOne = this.currentLocalWeather.pipe(
-      startWith(JSON.parse(localStorage[SUNRISE_SUNSET_TOMORROW_CACHE_KEY] || '[]'))
-    )
-  }
+  //   this.currentSunriseSunsetPlusOne = this.currentLocalWeather.pipe(
+  //     startWith(JSON.parse(localStorage[SUNRISE_SUNSET_TOMORROW_CACHE_KEY] || '[]'))
+  //   )
+  // }
+
+
 
   // getSunriseSunsetDay2() {
   //   // Sunrise and sunset plus 2 days 

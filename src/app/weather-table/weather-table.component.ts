@@ -24,8 +24,10 @@ export class WeatherTableComponent implements OnChanges, OnInit {
   test: string = "testing";
   geolocationPosition:any;
 
+
   constructor(private _weatherService: WeatherService) {
     this.updateTime();
+    // this.getLocalAPIs();
   }
 
   ngOnChanges() {
@@ -33,11 +35,12 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     console.log("changes caught");
   }
 
-  ngOnInit() {
+  getLocalAPIs() {
     // Using a hack job to solve the issue with the API passing data to local storage after the DOM gets populated with null data
     let y = '';
     let t = '';
     let s = '';
+
 
     setTimeout(() => (this._weatherService.currentLocalWeather,
       t = localStorage.getItem("currentWeather"),
@@ -51,7 +54,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.sunriseSunset,
       s = localStorage.getItem("sunriseSunsetToday"),
       this.sunRise = JSON.parse(s))
-      , 1000);
+      , 3000);
 
       setInterval(() => (this._weatherService.currentLocalWeather,
         t = localStorage.getItem("currentWeather"),
@@ -81,6 +84,67 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     y = localStorage.getItem("forecastWeather");
     this.fiveDayForecast = JSON.parse(y);
     // console.log(this.fiveDayForecast)
+  }
+
+  ngOnInit() {
+    // Using a hack job to solve the issue with the API passing data to local storage after the DOM gets populated with null data
+    let y = '';
+    let t = '';
+    let s = '';
+
+
+
+
+    setTimeout(() => (this._weatherService.currentLocalWeather,
+      t = localStorage.getItem("currentWeather"),
+      this.currentWeather = JSON.parse(t),
+      // console.log("interval called"),
+
+      this._weatherService.fiveDayForecast,
+      y = localStorage.getItem("forecastWeather"),
+      this.fiveDayForecast = JSON.parse(y),
+      
+      this._weatherService.sunriseSunset,
+      s = localStorage.getItem("sunriseSunsetToday"),
+      this.sunRise = JSON.parse(s))
+      , 3000);
+
+      setInterval(() => (this._weatherService.currentLocalWeather,
+        t = localStorage.getItem("currentWeather"),
+        this.currentWeather = JSON.parse(t),
+        // console.log("interval called"),
+  
+        this._weatherService.fiveDayForecast,
+        y = localStorage.getItem("forecastWeather"),
+        this.fiveDayForecast = JSON.parse(y),
+
+        this._weatherService.sunriseSunset,
+        s = localStorage.getItem("sunriseSunsetToday"),
+        this.sunRise = JSON.parse(s))
+        , 7500);  
+
+        setInterval(() => (this._weatherService.currentLocalWeather,
+          t = localStorage.getItem("currentWeather"),
+          this.currentWeather = JSON.parse(t),
+          // console.log("interval called"),
+    
+          this._weatherService.fiveDayForecast,
+          y = localStorage.getItem("forecastWeather"),
+          this.fiveDayForecast = JSON.parse(y))
+          , 24000);  
+
+    this._weatherService.currentLocalWeather;
+    t = localStorage.getItem("currentWeather");
+    this.currentWeather = JSON.parse(t);
+
+    this._weatherService.fiveDayForecast;
+    y = localStorage.getItem("forecastWeather");
+    this.fiveDayForecast = JSON.parse(y);
+    // console.log(this.fiveDayForecast)
+
+    this._weatherService.sunriseSunset,
+    s = localStorage.getItem("sunriseSunsetToday"),
+    this.sunRise = JSON.parse(s)
   }
 
   updateTime() {
