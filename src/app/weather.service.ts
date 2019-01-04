@@ -11,9 +11,9 @@ const FORECAST_WEATHER_CACHE_KEY = 'forecastWeather';
 const SUNRISE_SUNSET_TODAY_CACHE_KEY = 'sunriseSunsetToday';
 const SUNRISE_SUNSET_TOMORROW_CACHE_KEY = 'sunriseSunsetTomorrow';
 const SUNRISE_SUNSET_PLUS2_CACHE_KEY = 'sunriseSunsetPlus2days';
-const SUNRISE_SUNSET_PLUS3_CACHE_KEY = 'sunriseSunset_plus3days';
-const SUNRISE_SUNSET_PLUS4_CACHE_KEY = 'sunriseSunset_plus4days';
-const SUNRISE_SUNSET_PLUS5_CACHE_KEY = 'sunriseSunset_plus5days';
+const SUNRISE_SUNSET_PLUS3_CACHE_KEY = 'sunriseSunsetPlus3days';
+const SUNRISE_SUNSET_PLUS4_CACHE_KEY = 'sunriseSunsetPlus4days';
+const SUNRISE_SUNSET_PLUS5_CACHE_KEY = 'sunriseSunsetPlus5days';
 
 @Injectable({
   providedIn: 'root'
@@ -24,17 +24,27 @@ export class WeatherService {
   currentLocalWeather: any;
   fiveDayForecast: any;
   sunriseSunset:any;
+  sunriseSunset2:any;
+  sunriseSunset3:any;
+  sunriseSunset4:any;
+  sunriseSunset5:any;
+  sunriseSunset6:any;
   geolocationPosition:any;
   private lat:number;
   private lon:number;
   private date = new Date();
-  private currentTime = Date.now();
-  private tomorrow = (Date.now()) + 86400000;
-  // private tomorrow = (Date.now()) + 172800000;
-  private plus2Days = (Date.now()) + 172800000;
-  private plus3Days = (Date.now()) + (86400000 * 3);
-  private plus4Days = (Date.now()) + (86400000 * 4);
-  private plus5Days = (Date.now()) + (86400000 * 5);
+  private currentTime = new Date();
+  private currentTimeFormatted = this.currentTime.getFullYear() + this.currentTime.getMonth() + this.currentTime.getDate();
+  // private tomorrow =  new Date(this.currentTime.getTime() + ( 1000 * 60 * 60 * 24));
+  private currentTimeNum = (this.currentTime).getTime();
+  
+    private tomorrow = (new Date(this.currentTimeNum + 172800000)).toLocaleDateString();
+  // private tomorrowN = this.tomorrow.getFullYear() + this.tomorrow.getMonth() + this.currentTime.getDate();
+  private plus2Days = (new Date(this.currentTimeNum + (172800000 * 2))).toLocaleDateString();
+  private plus3Days = (new Date(this.currentTimeNum + (172800000 * 3))).toLocaleDateString();
+  private plus4Days = (new Date(this.currentTimeNum + (172800000 * 4))).toLocaleDateString();
+  private plus5Days = (new Date(this.currentTimeNum + (172800000 * 5))).toLocaleDateString();
+  asyncResult:any;
 
   currentSunriseSunsetToday:any;
   currentSunriseSunsetPlusOne:any;
@@ -46,9 +56,16 @@ export class WeatherService {
   constructor(private http: HttpClient) {
     this.getGeoLoc();
     this.checkAPI();
+    this.getSunriseSunset();
+    this.getSunriseSunsetTomorrow();
+    this.getSunriseSunsetDay2();
+    this.getSunriseSunsetDay3();
+    this.getSunriseSunsetDay4();
+    // this.getSunriseSunsetDay5();
   }
 
   getGeoLoc() {
+
       if (window.navigator && window.navigator.geolocation) {
         window.navigator.geolocation.getCurrentPosition(
             position => {
@@ -58,44 +75,45 @@ export class WeatherService {
                 this.lon = position.coords.longitude;
                 this.getCurrentWeather();
                 this.getForeCast();
-                setTimeout(() => 
-                  this.getSunriseSunset(),
-                  this.lat = position.coords.latitude,
-                  this.lon = position.coords.longitude
-                , 1000);
+                return this.geolocationPosition;
+                // setTimeout(() => 
+                //   this.getSunriseSunset(),
+                //   this.lat = position.coords.latitude,
+                //   this.lon = position.coords.longitude
+                // , 1000);
                 // setTimeout(() => 
                 //   this.getSunriseSunsetTomorrow()
                 // , 6000);
 
-                setTimeout(() => (
-                  this.getSunriseSunset(),
-                  this.getCurrentWeather(),
-                  this.getForeCast()
-                , 2500));
+                // setTimeout(() => (
+                //   this.getSunriseSunset(),
+                //   this.getCurrentWeather(),
+                //   this.getForeCast()
+                // , 2500));
                 // setTimeout(() => 
                 //   this.getSunriseSunsetTomorrow()
                 // , 2500);
 
-                setTimeout(() => (
-                  this.getSunriseSunset(),
-                  this.getCurrentWeather(),
-                  this.getForeCast(),
-                  console.log("5000 called")
-                , 5000));
+                // setTimeout(() => (
+                //   this.getSunriseSunset(),
+                //   this.getCurrentWeather(),
+                //   this.getForeCast(),
+                //   console.log("5000 called")
+                // , 5000));
                 // setTimeout(() => 
                 //   this.getSunriseSunsetTomorrow()
                 // , 5000);
 
-                setTimeout(() => 
-                  this.getSunriseSunset()
-                , 15000);
+                // setTimeout(() => 
+                //   this.getSunriseSunset()
+                // , 15000);
                 // setTimeout(() => 
                 //   this.getSunriseSunsetTomorrow()
                 // , 15000);
 
 
                 // this.getSunriseSunsetDay2();
-                console.log(this.lat);
+                // console.log(this.lat);
             },
             error => {
                 switch (error.code) {
@@ -110,6 +128,7 @@ export class WeatherService {
                         break;
                 }
             }
+        
         );
     };
   }
@@ -124,53 +143,153 @@ export class WeatherService {
 
   getSunriseSunset() {
     // Sunrise and sunset today
-    this.currentSunriseSunsetToday = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.lat}&lng=${this.lon}&date=${this.currentTime}`)
+    this.getGeoLoc();
+    console.log("tomorrow is " + this.tomorrow);
+      
+    setTimeout(() => {
+      
+      this.currentSunriseSunsetToday = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.geolocationPosition.coords.latitude}&lng=${this.geolocationPosition.coords.longitude}&date=${this.currentTimeFormatted}`)
+      .pipe(
+        map(data => data)
+      );
+
+      this.currentSunriseSunsetToday.subscribe(next => {
+        localStorage[SUNRISE_SUNSET_TODAY_CACHE_KEY] = JSON.stringify(next);
+      });
+
+      this.currentSunriseSunsetToday = this.currentLocalWeather.pipe(
+        startWith(JSON.parse(localStorage[SUNRISE_SUNSET_TODAY_CACHE_KEY] || '[]'))
+      )
+      
+    }, 4000);
+      // console.log("this is a test for async in getSunriseSunset");
+  }
+
+  getSunriseSunsetTomorrow() {
+
+    this.getGeoLoc();
+
+    // Sunrise and sunset tomorrow
+
+    setTimeout(() => {
+
+      this.currentSunriseSunsetPlusOne = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.geolocationPosition.coords.latitude}&lng=${this.geolocationPosition.coords.longitude}&date=${this.tomorrow}`)
+      .pipe(
+        map(data2 => data2)
+      );
+
+      this.currentSunriseSunsetPlusOne.subscribe(next => {
+        localStorage[SUNRISE_SUNSET_TOMORROW_CACHE_KEY] = JSON.stringify(next);
+      });
+
+      this.currentSunriseSunsetPlusOne = this.currentLocalWeather.pipe(
+        startWith(JSON.parse(localStorage[SUNRISE_SUNSET_TOMORROW_CACHE_KEY] || '[]'))
+      )
+
+      // console.log(this.tomorrow);
+
+    }, 4000);
+  }
+
+
+
+  getSunriseSunsetDay2() {
+
+    this.getGeoLoc();
+
+    // Sunrise and sunset plus 2 days 
+
+    setTimeout(() => {
+
+      this.currentSunriseSunsetPlusTwo = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.geolocationPosition.coords.latitude}&lng=${this.geolocationPosition.coords.longitude}&date=${this.plus2Days}`)
+      .pipe(
+        map(data3 => data3)
+      );
+
+      this.currentSunriseSunsetPlusTwo.subscribe(next => {
+        localStorage[SUNRISE_SUNSET_PLUS2_CACHE_KEY] = JSON.stringify(next);
+      });
+
+      this.currentSunriseSunsetPlusTwo = this.currentLocalWeather.pipe(
+        startWith(JSON.parse(localStorage[SUNRISE_SUNSET_PLUS2_CACHE_KEY] || '[]'))
+      )
+
+    }, 4000);
+  }
+
+
+getSunriseSunsetDay3() {
+
+  this.getGeoLoc();
+
+  // Sunrise and sunset plus 3 days 
+
+  setTimeout(() => {
+
+    this.currentSunriseSunsetPlusThree = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.geolocationPosition.coords.latitude}&lng=${this.geolocationPosition.coords.longitude}&date=${this.plus3Days}`)
     .pipe(
       map(data => data)
     );
 
-    this.currentSunriseSunsetToday.subscribe(next => {
-      localStorage[SUNRISE_SUNSET_TODAY_CACHE_KEY] = JSON.stringify(next);
+    this.currentSunriseSunsetPlusThree.subscribe(next => {
+      localStorage[SUNRISE_SUNSET_PLUS3_CACHE_KEY] = JSON.stringify(next);
     });
 
-    this.currentSunriseSunsetToday = this.currentLocalWeather.pipe(
-      startWith(JSON.parse(localStorage[SUNRISE_SUNSET_TODAY_CACHE_KEY] || '[]'))
+    this.currentSunriseSunsetPlusThree = this.currentLocalWeather.pipe(
+      startWith(JSON.parse(localStorage[SUNRISE_SUNSET_PLUS3_CACHE_KEY] || '[]'))
     )
-  }
 
-  // getSunriseSunsetTomorrow() {
-  //   // Sunrise and sunset tomorrow
-  //   this.currentSunriseSunsetPlusOne = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.lat}&lng=${this.lon}&date=${this.tomorrow}`)
-  //   .pipe(
-  //     map(data2 => data2)
-  //   );
+  }, 4000);
+}
 
-  //   this.currentSunriseSunsetPlusOne.subscribe(next => {
-  //     localStorage[SUNRISE_SUNSET_TOMORROW_CACHE_KEY] = JSON.stringify(next);
-  //   });
+getSunriseSunsetDay4() {
 
-  //   this.currentSunriseSunsetPlusOne = this.currentLocalWeather.pipe(
-  //     startWith(JSON.parse(localStorage[SUNRISE_SUNSET_TOMORROW_CACHE_KEY] || '[]'))
-  //   )
-  // }
+  this.getGeoLoc();
+
+  // Sunrise and sunset plus 4 days 
+
+  setTimeout(() => {
+
+    this.currentSunriseSunsetPlusFour = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.geolocationPosition.coords.latitude}&lng=${this.geolocationPosition.coords.longitude}&date=${this.plus4Days}`)
+    .pipe(
+      map(data => data)
+    );
+
+    this.currentSunriseSunsetPlusFour.subscribe(next => {
+      localStorage[SUNRISE_SUNSET_PLUS4_CACHE_KEY] = JSON.stringify(next);
+    });
+
+    this.currentSunriseSunsetPlusFour = this.currentLocalWeather.pipe(
+      startWith(JSON.parse(localStorage[SUNRISE_SUNSET_PLUS4_CACHE_KEY] || '[]'))
+    )
+
+  }, 4000);
+}
 
 
+getSunriseSunsetDay5() {
 
-  // getSunriseSunsetDay2() {
-  //   // Sunrise and sunset plus 2 days 
-  //   this.currentSunriseSunsetPlusTwo = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.lat}&lng=${this.lon}&date=${this.currentTime}`)
-  //   .pipe(
-  //     map(data3 => data3)
-  //   );
+  this.getGeoLoc();
 
-  //   this.currentSunriseSunsetPlusTwo.subscribe(next => {
-  //     localStorage[SUNRISE_SUNSET_PLUS2_CACHE_KEY] = JSON.stringify(next);
-  //   });
+  // Sunrise and sunset plus 5 days 
 
-  //   this.currentSunriseSunsetPlusTwo = this.currentLocalWeather.pipe(
-  //     startWith(JSON.parse(localStorage[SUNRISE_SUNSET_PLUS2_CACHE_KEY] || '[]'))
-  //   )
-  // }
+  setTimeout(() => {
+
+    this.currentSunriseSunsetPlusFive = this.http.get<any>(`https://api.sunrise-sunset.org/json?lat=${this.geolocationPosition.coords.latitude}&lng=${this.geolocationPosition.coords.longitude}&date=${this.plus5Days}`)
+    .pipe(
+      map(data => data)
+    );
+
+    this.currentSunriseSunsetPlusFive.subscribe(next => {
+      localStorage[SUNRISE_SUNSET_PLUS5_CACHE_KEY] = JSON.stringify(next);
+    });
+
+    this.currentSunriseSunsetPlusFive = this.currentLocalWeather.pipe(
+      startWith(JSON.parse(localStorage[SUNRISE_SUNSET_PLUS5_CACHE_KEY] || '[]'))
+    )
+
+  }, 4000);
+}
 
 
 
