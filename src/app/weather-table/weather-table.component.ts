@@ -37,6 +37,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
   }
 
 
+
   ngOnInit() {
     // Using a hack job to solve the issue with the API passing data to local storage after the DOM gets populated with null data
     let y = '';

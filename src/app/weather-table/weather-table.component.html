@@ -94,19 +94,33 @@
       </tr>
       <tr>
         <td>Wind Direction</td>
-        <td>{{currentWeather.wind.deg || 0}}°</td>
-        <td>{{fiveDayForecast.list[1].wind.deg | number: '1.0-0' }}° 
-          <span> 
-            <img width="10rem" src="../assets/icons/winds/0deg.svg" alt="">
-          </span>
+        <td>{{currentWeather.wind.deg || 0}}°
+          <app-wind-directions-now></app-wind-directions-now>
         </td>
-        <td>{{fiveDayForecast.list[3].wind.deg | number: '1.0-0'}}°</td>
-        <td>{{fiveDayForecast.list[5].wind.deg | number: '1.0-0'}}°</td>
-        <td>{{fiveDayForecast.list[7].wind.deg | number: '1.0-0'}}°</td>
-        <td>{{fiveDayForecast.list[15].wind.deg | number: '1.0-0'}}°</td>
-        <td>{{fiveDayForecast.list[23].wind.deg | number: '1.0-0'}}°</td>
-        <td>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0'}}°</td>
-        <td>{{fiveDayForecast.list[36].wind.deg | number: '1.0-0'}}°</td>
+        <td>{{fiveDayForecast.list[1].wind.deg | number: '1.0-0' }}° 
+          <app-wind-directions-1hr></app-wind-directions-1hr>
+        </td>
+        <td>{{fiveDayForecast.list[3].wind.deg | number: '1.0-0'}}°
+          <app-wind-directions-3hrs></app-wind-directions-3hrs>
+        </td>
+        <td>{{fiveDayForecast.list[5].wind.deg | number: '1.0-0'}}°
+            <app-wind-directions-9hrs></app-wind-directions-9hrs>
+        </td>
+        <td>{{fiveDayForecast.list[7].wind.deg | number: '1.0-0'}}°
+            <app-wind-directions-15hrs></app-wind-directions-15hrs>
+        </td>
+        <td>{{fiveDayForecast.list[15].wind.deg | number: '1.0-0'}}°
+            <app-wind-directions-day2></app-wind-directions-day2>  
+        </td>
+        <td>{{fiveDayForecast.list[23].wind.deg | number: '1.0-0'}}°
+            <app-wind-directions-day3></app-wind-directions-day3>
+        </td>
+        <td>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0'}}°
+            <app-wind-directions-day4></app-wind-directions-day4>
+        </td>
+        <td>{{fiveDayForecast.list[36].wind.deg | number: '1.0-0'}}°
+            <app-wind-directions-day5></app-wind-directions-day5>
+        </td>
       </tr>
       <tr>
         <td>Sunrise</td>

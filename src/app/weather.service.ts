@@ -40,7 +40,7 @@ export class WeatherService {
   private plus2Days = (new Date(this.currentTimeNum + (172800000 * 2))).toLocaleDateString();
   private plus3Days = (new Date(this.currentTimeNum + (172800000 * 3))).toLocaleDateString();
   private plus4Days = (new Date(this.currentTimeNum + (172800000 * 4))).toLocaleDateString();
-  private plus5Days = (new Date(this.currentTimeNum + (172800000 * 4) + 43200000)).toLocaleDateString();
+  private plus5Days = (new Date(this.currentTimeNum + (172800000 * 4) + 50400000)).toLocaleDateString();
   asyncResult:any;
 
   currentSunriseSunsetToday:any;

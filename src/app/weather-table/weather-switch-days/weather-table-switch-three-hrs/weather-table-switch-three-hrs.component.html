@@ -1,0 +1,207 @@
+<!-- <div> -->
+    <span [ngSwitch]="fiveDayForecast.list[1].weather[0].id">
+
+        <!-- ThunderStorm conditions -->
+        <span *ngSwitchCase="'200'">
+          <!-- thunderstorm with light rain -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'201'">
+          <!-- thunderstorm with rain -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'202'">
+          <!-- thunderstorm with heavy rain -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'210'">
+          <!-- light thunderstorm -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'211'">
+          <!-- thunderstorm -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'212'">
+          <!-- heavy thunderstorm -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'221'">
+          <!-- ragged thunderstorm -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'230'">
+          <!-- thunderstorm with light drizzle -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'231'">
+          <!-- thunderstorm with drizzle -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'232'">
+          <!-- thunderstorm with heavy drizzle -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+    
+        <!-- Drizzle conditions -->
+        <span *ngSwitchCase="'300'">
+          <!-- light intensity drizzle -->
+          <img width="40rem" src="../assets/icons/wi-sprinkle.svg">
+        </span>
+        <span *ngSwitchCase="'301'">
+          <!-- drizzle -->
+          <img width="40rem" src="../assets/icons/wi-sprinkle.svg">
+        </span>
+        <span *ngSwitchCase="'302'">
+          <!-- heavy intensity drizzle -->
+          <img width="40rem" src="../assets/icons/wi-showers.svg">
+        </span>
+        <span *ngSwitchCase="'310'">
+          <!-- light intensity drizzle rain -->
+          <img width="40rem" src="../assets/icons/wi-showers.svg">
+        </span>
+        <span *ngSwitchCase="'311'">
+          <!-- drizzle rain -->
+          <img width="40rem" src="../assets/icons/wi-showers.svg">
+        </span>
+        <span *ngSwitchCase="'312'">
+          <!-- heavy intensity drizzle rain -->
+          <img width="40rem" src="../assets/icons/wi-showers.svg">
+        </span>
+        <span *ngSwitchCase="'313'">
+          <!-- shower rain and drizzle -->
+          <img width="40rem" src="../assets/icons/wi-day-thunderstorm.svg">
+        </span>
+        <span *ngSwitchCase="'314'">
+          <!-- heavy shower rain and drizzle -->
+          <img width="40rem" src="../assets/icons/wi-rain-mix.svg">
+        </span>
+        <span *ngSwitchCase="'321'">
+          <!-- shower drizzle -->
+          <img width="40rem" src="../assets/icons/wi-day-sprinkle.svg">
+        </span>
+    
+        <!-- Rain conditions -->
+        <span *ngSwitchCase="'500'">
+          <img width="40rem" src="../assets/icons/wi-day-rain.svg">
+        </span>
+        <span *ngSwitchCase="'501'">
+          <img width="40rem" src="../assets/icons/wi-day-sleet.svg">
+        </span>
+    
+        <!-- Snow conditions -->
+        <span *ngSwitchCase="'600'">
+          <!-- light snow -->
+          <img width="40rem" src="../assets/icons/wi-day-haze.svg">
+        </span>
+        <span *ngSwitchCase="'601'">
+          <!-- snow -->
+          <img width="40rem" src="../assets/icons/wi-day-snow.svg">
+        </span>
+        <span *ngSwitchCase="'602'">
+          <!-- heavy snow -->
+          <img width="40rem" src="../assets/icons/wi-snow.svg">
+        </span>
+        <span *ngSwitchCase="'611'">
+          <!-- sleet -->
+          <img width="40rem" src="../assets/icons/wi-sleet.svg">
+        </span>
+        <span *ngSwitchCase="'612'">
+          <!-- shower sleet -->
+          <img width="40rem" src="../assets/icons/wi-sleet.svg">
+        </span>
+        <span *ngSwitchCase="'615'">
+          <!-- light rain and snow -->
+          <img width="40rem" src="../assets/icons/wi-sleet.svg">
+        </span>
+        <span *ngSwitchCase="'616'">
+          <!-- rain and snow -->
+          <img width="40rem" src="../assets/icons/wi-sleet.svg">
+        </span>
+        <span *ngSwitchCase="'620'">
+          <!-- light shower snow -->
+          <img width="40rem" src="../assets/icons/wi-sleet.svg">
+        </span>
+        <span *ngSwitchCase="'621'">
+          <!-- shower snow -->
+          <img width="40rem" src="../assets/icons/wi-snow.svg">
+        </span>
+        <span *ngSwitchCase="'622'">
+          <!-- heavy shower snow -->
+          <img width="40rem" src="../assets/icons/wi-day-haze.svg">
+        </span>
+    
+    
+        <!-- Atmosphere conditions -->
+        <span *ngSwitchCase="'701'">
+          <!-- mist -->
+          <img width="40rem" src="../assets/icons/wi-day-haze.svg">
+        </span>
+        <span *ngSwitchCase="'711'">
+          <!-- smoke -->
+          <img width="40rem" src="../assets/icons/wi-smoke.svg">
+        </span>
+        <span *ngSwitchCase="'721'">
+          <!-- haze -->
+          <img width="40rem" src="../assets/icons/wi-smog.svg">
+        </span>
+        <span *ngSwitchCase="'731'">
+          <!-- sand, dust whirls -->
+          <img width="40rem" src="../assets/icons/wi-sandstorm.svg">
+        </span>
+        <span *ngSwitchCase="'741'">
+          <!-- fog -->
+          <img width="40rem" src="../assets/icons/wi-day-fog.svg">
+        </span>
+        <span *ngSwitchCase="'751'">
+          <!-- sand -->
+          <img width="40rem" src="../assets/icons/wi-sandstorm.svg">
+        </span>
+        <span *ngSwitchCase="'761'">
+          <!-- dust -->
+          <img width="40rem" src="../assets/icons/wi-smog.svg">
+        </span>
+        <span *ngSwitchCase="'762'">
+          <!-- volcanic ash -->
+          <img width="40rem" src="../assets/icons/wi-smog.svg">
+        </span>
+        <span *ngSwitchCase="'771'">
+          <!-- squalls -->
+          <img width="40rem" src="../assets/icons/wi-day-sunny.svg">
+        </span>
+        <span *ngSwitchCase="'781'">
+          <!-- tornado -->
+          <img width="40rem" src="../assets/icons/wi-sprinkle.svg">
+        </span>
+    
+        <!-- Clear conditions -->
+        <span *ngSwitchCase="'800'">
+          <!-- clear sky -->
+          <img width="40rem" src="../assets/icons/wi-day-sunny.svg">
+        </span>
+    
+        <!-- Cloudy conditions -->
+        <span *ngSwitchCase="'801'">
+          <!-- few cloud -->
+          <img width="40rem" src="../assets/icons/wi-day-sunny-overcast.svg">
+        </span>
+        <span *ngSwitchCase="'802'">
+          <!-- scattered clouds -->
+          <img width="40rem" src="../assets/icons/wi-day-sunny-overcast.svg">
+        </span>
+        <span *ngSwitchCase="'803'">
+          <!-- broken cloud -->
+          <img width="40rem" src="../assets/icons/wi-day-sunny-overcast.svg">
+        </span>
+        <span *ngSwitchCase="'804'">
+          <!-- overcast clouds -->
+          <img width="40rem" src="../assets/icons/wi-day-cloudy-high.svg">
+        </span>
+    
+        <!-- Default condition -->
+        <span *ngSwitchDefault>
+          <img width="40rem" src="../assets/icons/wi-day-sunny.svg">
+        </span>
+      </span>
+    
+    <!-- </div> -->
