@@ -46,7 +46,9 @@
       </tr>
       <tr>
         <td>Temperature</td>
-        <td>{{currentWeather.main.temp -273.15 | number:'1.0-0'}}°C</td>
+        <td>{{currentWeather.main.temp -273.15 | number:'1.0-0'}}°C &nbsp;
+          <span class="temp_low">{{(currentWeather.main["temp_min"]) -273.15 | number:'1.0-0'}}°</span>
+        </td>
         <td>{{fiveDayForecast.list[1].main.temp - 273.15 | number: '1.0-0'}}°C</td>
         <td>{{fiveDayForecast.list[3].main.temp - 273.15 | number: '1.0-0'}}°C</td>
         <td>{{fiveDayForecast.list[5].main.temp - 273.15 | number: '1.0-0'}}°C</td>
