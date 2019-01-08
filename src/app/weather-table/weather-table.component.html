@@ -1,152 +1,209 @@
-<!-- <button class="btn btn-primary" (click)="getLocation()">Get Geo Location</button> -->
-
 <div class="container">
-  <table class="table">
-      <tr>
-        <th>{{currentWeather.name}}</th>
-        <th>Now</th>
-        <th>{{currentTime + (3600000*3) | date: 'shortTime'}}</th>
-        <th>{{currentTime + (3600000*9) | date: 'shortTime'}}</th>
-        <th>{{currentTime + (3600000*15) | date: 'shortTime'}}</th>
-        <th>{{currentTime + (3600000*24) | date: 'MMM d'}}</th>
-        <th>{{currentTime + (3600000*48) | date: 'MMM d'}}</th>
-        <th>{{currentTime + (3600000*72) | date: 'MMM d'}}</th>
-        <th>{{currentTime + (3600000*96) | date: 'MMM d'}}</th>
-        <th>{{currentTime + (3600000*120) | date: 'MMM d'}}</th>
-      </tr>
-      <tr id="weatherIcons">
-        <td></td>
-        <td class="weatherIcons">
-          <app-weather-table-switch-now></app-weather-table-switch-now>
-        </td>
-        <td class="weatherIcons">
-          <app-weather-table-switch-three-hrs></app-weather-table-switch-three-hrs>
-        </td>
-        <td class="weatherIcons">
-            <app-weather-table-switch-nine-hrs></app-weather-table-switch-nine-hrs>
-          </td>
-        <td class="weatherIcons">
-          <app-weather-table-switch-fifteen-hrs></app-weather-table-switch-fifteen-hrs>
-        </td>
-        <td class="weatherIcons">
-          <app-weather-table-switch-day2></app-weather-table-switch-day2>
-        </td>
-        <td class="weatherIcons">
-          <app-weather-table-switch-day3></app-weather-table-switch-day3>
-        </td>
-        <td class="weatherIcons">
-          <app-weather-table-switch-day4></app-weather-table-switch-day4>
-        </td>
-        <td class="weatherIcons">
-          <app-weather-table-switch-day5></app-weather-table-switch-day5>
-        </td>
-        <td class="weatherIcons">
-          <app-weather-table-switch-day6></app-weather-table-switch-day6>
-        </td>
-      </tr>
-      <tr>
-        <td>Temperature</td>
-        <td>{{currentWeather.main.temp -273.15 | number:'1.0-0'}}°C &nbsp;
-          <span class="temp_low">{{(currentWeather.main["temp_min"]) -273.15 | number:'1.0-0'}}°</span>
-        </td>
-        <td>{{fiveDayForecast.list[1].main.temp - 273.15 | number: '1.0-0'}}°C</td>
-        <td>{{fiveDayForecast.list[3].main.temp - 273.15 | number: '1.0-0'}}°C</td>
-        <td>{{fiveDayForecast.list[5].main.temp - 273.15 | number: '1.0-0'}}°C</td>
-        <td>{{fiveDayForecast.list[7].main.temp - 273.15 | number: '1.0-0'}}°C</td>
-        <td>{{fiveDayForecast.list[15].main.temp - 273.15 | number: '1.0-0'}}°C</td>
-        <td>{{fiveDayForecast.list[23].main.temp - 273.15 | number: '1.0-0'}}°C</td>
-        <td>{{fiveDayForecast.list[31].main.temp - 273.15 | number: '1.0-0'}}°C</td>
-        <td>{{fiveDayForecast.list[36].main.temp - 273.15 | number: '1.0-0'}}°C</td>
-      </tr>
-      <tr>
-        <td>Humidity</td>
-        <td>{{currentWeather.main.humidity}}%</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>Air Pressure</td>
-        <td>{{currentWeather.main.pressure | number: '1.0-0'}} mb</td>
-        <td>{{fiveDayForecast.list[1].main.pressure | number: '1.0-0'}} mb</td>
-        <td>{{fiveDayForecast.list[3].main.pressure | number: '1.0-0'}} mb</td>
-        <td>{{fiveDayForecast.list[5].main.pressure | number: '1.0-0'}} mb</td>
-        <td>{{fiveDayForecast.list[7].main.pressure | number: '1.0-0'}} mb</td>
-        <td>{{fiveDayForecast.list[15].main.pressure | number: '1.0-0'}} mb</td>
-        <td>{{fiveDayForecast.list[23].main.pressure | number: '1.0-0'}} mb</td>
-        <td>{{fiveDayForecast.list[31].main.pressure | number: '1.0-0'}} mb</td>
-        <td>{{fiveDayForecast.list[36].main.pressure | number: '1.0-0'}} mb</td>
-      </tr>
-      <tr>
-        <td>Wind Speed</td>
-        <td>{{currentWeather.wind.speed}} km/h</td>
-        <td>{{fiveDayForecast.list[1].wind.speed}} km/h</td>
-        <td>{{fiveDayForecast.list[3].wind.speed}} km/h</td>
-        <td>{{fiveDayForecast.list[5].wind.speed}} km/h</td>
-        <td>{{fiveDayForecast.list[7].wind.speed}} km/h</td>
-        <td>{{fiveDayForecast.list[15].wind.speed}} km/h</td>
-        <td>{{fiveDayForecast.list[23].wind.speed}} km/h</td>
-        <td>{{fiveDayForecast.list[31].wind.speed}} km/h</td>
-        <td>{{fiveDayForecast.list[36].wind.speed}} km/h</td>
-      </tr>
-      <tr>
-        <td>Wind Direction</td>
-        <td>{{currentWeather.wind.deg || 0}}°
-          <app-wind-directions-now></app-wind-directions-now>
-        </td>
-        <td>{{fiveDayForecast.list[1].wind.deg | number: '1.0-0' }}° 
-          <app-wind-directions-1hr></app-wind-directions-1hr>
-        </td>
-        <td>{{fiveDayForecast.list[3].wind.deg | number: '1.0-0'}}°
-          <app-wind-directions-3hrs></app-wind-directions-3hrs>
-        </td>
-        <td>{{fiveDayForecast.list[5].wind.deg | number: '1.0-0'}}°
-            <app-wind-directions-9hrs></app-wind-directions-9hrs>
-        </td>
-        <td>{{fiveDayForecast.list[7].wind.deg | number: '1.0-0'}}°
-            <app-wind-directions-15hrs></app-wind-directions-15hrs>
-        </td>
-        <td>{{fiveDayForecast.list[15].wind.deg | number: '1.0-0'}}°
-            <app-wind-directions-day2></app-wind-directions-day2>  
-        </td>
-        <td>{{fiveDayForecast.list[23].wind.deg | number: '1.0-0'}}°
-            <app-wind-directions-day3></app-wind-directions-day3>
-        </td>
-        <td>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0'}}°
-            <app-wind-directions-day4></app-wind-directions-day4>
-        </td>
-        <td>{{fiveDayForecast.list[36].wind.deg | number: '1.0-0'}}°
-            <app-wind-directions-day5></app-wind-directions-day5>
-        </td>
-      </tr>
-      <tr>
-        <td>Sunrise</td>
-        <td>{{sunRise.results.sunrise}}</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>{{sunRise2.results.sunrise}}</td>
-        <td>{{sunRise3.results.sunrise}}</td>
-        <td>{{sunRise4.results.sunrise}}</td>
-        <td>{{sunRise5.results.sunrise}}</td>
-        <td>{{sunRise6.results.sunrise}}</td>
-      </tr>
-      <tr>
-        <td>Sunset</td>
-        <td>{{sunRise.results.sunset}}</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>{{sunRise2.results.sunset}}</td>
-        <td>{{sunRise3.results.sunset}}</td>
-        <td>{{sunRise4.results.sunset}}</td>
-        <td>{{sunRise5.results.sunset}}</td>
-        <td>{{sunRise6.results.sunset}}</td>
-      </tr>
-  </table>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="container">
+
+      </div>
+      <div id="current">
+        <div class="row">
+          <span id="main_weather_icon">
+            <app-weather-table-switch-now></app-weather-table-switch-now>
+          </span>
+        </div>
+        <div id="current_temp">
+          {{currentWeather.main.temp -273.15 | number:'1.0-0'}}°C
+        </div>
+        <div class="container">
+          <div id="location">
+            {{currentWeather.name}}
+          </div>
+          <div id="nation">
+            {{this.country}}
+          </div>
+        </div>
+      </div>
+      <img class="background-image" src="../assets/photos/sunset.jpeg">
+    </div>
+  </div>
+  <div id="current-weather-info" class="col-sm-5">
+    <div class="grid-container">
+      <div>
+        Humidity
+      </div>
+      <div>
+        <div class="v-separator"></div>
+      </div>
+      <div>
+        {{currentWeather.main.humidity}}%
+      </div>
+
+      <div>
+        Air Pressure
+      </div>
+      <div>
+        <div class="v-separator"></div>
+      </div>
+      <div>
+        {{currentWeather.main.pressure | number: '1.0-0'}} mb
+      </div>
+
+      <div></div>
+      <div></div>
+      <div></div>
+
+      <div>
+        Wind Speed
+      </div>
+      <div>
+        <div class="v-separator"></div>
+      </div>
+      <div>
+        {{currentWeather.wind.speed}} km/h
+      </div>
+
+      <div>
+        Wind Direction
+      </div>
+      <div>
+        <div class="v-separator"></div>
+      </div>
+      <div>
+        {{currentWeather.wind.deg || 0}}°
+        <app-wind-directions-now></app-wind-directions-now>
+      </div>
+
+      <div></div>
+      <div></div>
+      <div></div>
+
+      <div>
+        Sunrise
+      </div>
+      <div>
+        <div class="v-separator"></div>
+      </div>
+      <div>
+        {{sunRise.results.sunrise}}
+      </div>
+
+      <div>
+        Sunset
+      </div>
+      <div>
+      </div>
+      <div>
+        {{sunRise.results.sunset}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container" id="table_container">
+  <div id="table-grid">
+    <div class="description">Time</div>
+    <div>{{currentTime + (3600000*3) | date: 'shortTime'}}</div>
+    <div>{{currentTime + (3600000*9) | date: 'shortTime'}}</div>
+    <div>{{currentTime + (3600000*15) | date: 'shortTime'}}</div>
+    <div>{{currentTime + (3600000*24) | date: 'MMM d'}}</div>
+    <div>{{currentTime + (3600000*48) | date: 'MMM d'}}</div>
+    <div>{{currentTime + (3600000*72) | date: 'MMM d'}}</div>
+    <div>{{currentTime + (3600000*96) | date: 'MMM d'}}</div>
+    <div>{{currentTime + (3600000*120) | date: 'MMM d'}}</div>
+
+    <div class="description" id="table-grid-odd">Outlook</div>
+    <div id="table-grid-odd">
+      <app-weather-table-switch-three-hrs></app-weather-table-switch-three-hrs>
+    </div>
+    <div id="table-grid-odd">
+      <app-weather-table-switch-nine-hrs></app-weather-table-switch-nine-hrs>
+    </div>
+    <div id="table-grid-odd">
+      <app-weather-table-switch-fifteen-hrs></app-weather-table-switch-fifteen-hrs>
+    </div>
+    <div id="table-grid-odd">
+      <app-weather-table-switch-day2></app-weather-table-switch-day2>
+    </div>
+    <div id="table-grid-odd">
+      <app-weather-table-switch-day3></app-weather-table-switch-day3>
+    </div>
+    <div id="table-grid-odd">
+      <app-weather-table-switch-day4></app-weather-table-switch-day4>
+    </div>
+    <div id="table-grid-odd">
+      <app-weather-table-switch-day5></app-weather-table-switch-day5>
+    </div>
+    <div id="table-grid-odd">
+      <app-weather-table-switch-day6></app-weather-table-switch-day6>
+    </div>
+
+
+    <div class="description">Air Pressure</div>
+    <div>{{fiveDayForecast.list[1].main.temp - 273.15 | number: '1.0-0'}}°C</div>
+    <div>{{fiveDayForecast.list[3].main.temp - 273.15 | number: '1.0-0'}}°C</div>
+    <div>{{fiveDayForecast.list[5].main.temp - 273.15 | number: '1.0-0'}}°C</div>
+    <div>{{fiveDayForecast.list[7].main.temp - 273.15 | number: '1.0-0'}}°C</div>
+    <div>{{fiveDayForecast.list[15].main.temp - 273.15 | number: '1.0-0'}}°C</div>
+    <div>{{fiveDayForecast.list[23].main.temp - 273.15 | number: '1.0-0'}}°C</div>
+    <div>{{fiveDayForecast.list[31].main.temp - 273.15 | number: '1.0-0'}}°C</div>
+    <div>{{fiveDayForecast.list[36].main.temp - 273.15 | number: '1.0-0'}}°C</div>
+
+    <div class="description" id="table-grid-odd">Wind Speed</div>
+    <div id="table-grid-odd">{{fiveDayForecast.list[1].wind.speed}} km/h</div>
+    <div id="table-grid-odd">{{fiveDayForecast.list[3].wind.speed}} km/h</div>
+    <div id="table-grid-odd">{{fiveDayForecast.list[5].wind.speed}} km/h</div>
+    <div id="table-grid-odd">{{fiveDayForecast.list[7].wind.speed}} km/h</div>
+    <div id="table-grid-odd">{{fiveDayForecast.list[15].wind.speed}} km/h</div>
+    <div id="table-grid-odd">{{fiveDayForecast.list[23].wind.speed}} km/h</div>
+    <div id="table-grid-odd">{{fiveDayForecast.list[31].wind.speed}} km/h</div>
+    <div id="table-grid-odd">{{fiveDayForecast.list[36].wind.speed}} km/h</div>
+
+    <div class="description">Wind Direction</div>
+    <div>{{fiveDayForecast.list[1].wind.deg | number: '1.0-0' }}°
+      <app-wind-directions-1hr></app-wind-directions-1hr>
+    </div>
+    <div>{{fiveDayForecast.list[3].wind.deg | number: '1.0-0' }}°
+      <app-wind-directions-1hr></app-wind-directions-1hr>
+    </div>
+    <div>{{fiveDayForecast.list[5].wind.deg | number: '1.0-0' }}°
+      <app-wind-directions-1hr></app-wind-directions-1hr>
+    </div>
+    <div>{{fiveDayForecast.list[7].wind.deg | number: '1.0-0' }}°
+      <app-wind-directions-1hr></app-wind-directions-1hr>
+    </div>
+    <div>{{fiveDayForecast.list[15].wind.deg | number: '1.0-0' }}°
+      <app-wind-directions-1hr></app-wind-directions-1hr>
+    </div>
+    <div>{{fiveDayForecast.list[23].wind.deg | number: '1.0-0' }}°
+      <app-wind-directions-1hr></app-wind-directions-1hr>
+    </div>
+    <div>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0' }}°
+      <app-wind-directions-1hr></app-wind-directions-1hr>
+    </div>
+    <div>{{fiveDayForecast.list[36].wind.deg | number: '1.0-0' }}°
+      <app-wind-directions-1hr></app-wind-directions-1hr>
+    </div>
+
+    <div class="description" id="table-grid-odd">Sunrise</div>
+    <div id="table-grid-odd"></div>
+    <div id="table-grid-odd"></div>
+    <div id="table-grid-odd"></div>
+    <div id="table-grid-odd">{{sunRise2.results.sunrise}}</div>
+    <div id="table-grid-odd">{{sunRise3.results.sunrise}}</div>
+    <div id="table-grid-odd">{{sunRise4.results.sunrise}}</div>
+    <div id="table-grid-odd">{{sunRise5.results.sunrise}}</div>
+    <div id="table-grid-odd">{{sunRise6.results.sunrise}}</div>
+
+    <div class="description">Sunset</div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div>{{sunRise2.results.sunset}}</div>
+    <div>{{sunRise3.results.sunset}}</div>
+    <div>{{sunRise4.results.sunset}}</div>
+    <div>{{sunRise5.results.sunset}}</div>
+    <div>{{sunRise6.results.sunset}}</div>
+
+  </div>
+
 </div>

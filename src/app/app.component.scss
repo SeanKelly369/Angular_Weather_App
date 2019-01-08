@@ -1,12 +1,20 @@
+// html {
+//     background-color: black;
+// }
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: .8rem;
+    margin: auto;
+    background-color: black;
 }
 
-.col-lg-9 {
-    background-color: rgb(173, 241, 173);
+.col-lg-10 {
+    background-color: rgb(0, 0, 0);
     padding: 2rem;
-    margin: 3rem;
+    // margin: 3rem;
+    margin: 0 auto;
+    height: 60rem;
 }
 
 .row {
