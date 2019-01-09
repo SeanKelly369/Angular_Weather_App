@@ -1051,6 +1051,8 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     }
     if (local3HrTimeMilli > this.sunrise1Milli && local3HrTimeMilli > this.sunset1Milli) {
       this.isDayTime3hrs = true;
+    } else {
+      this.isDayTime15hrs = false;
     }
   }
 
@@ -1066,6 +1068,8 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     }
     if (local9HrTimeMilli > this.sunrise1Milli && local9HrTimeMilli > this.sunset1Milli) {
       this.isDayTime9hrs = true;
+    } else {
+      this.isDayTime15hrs = false;
     }
   }
 
@@ -1080,6 +1084,8 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     }
     if (local15HrTimeMilli > this.sunrise1Milli && local15HrTimeMilli > this.sunset1Milli) {
       this.isDayTime15hrs = true;
+    } else {
+      this.isDayTime15hrs = false;
     }
   }
 
