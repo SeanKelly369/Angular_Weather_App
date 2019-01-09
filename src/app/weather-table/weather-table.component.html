@@ -11,7 +11,13 @@
           </span>
         </div>
         <div id="current_temp">
-          {{currentWeather.main.temp -273.15 | number:'1.0-0'}}°C
+          <span *ngIf="isC">
+            {{currentWeather.main.temp -273.15 | number:'1.0-0'}}°C
+          </span>
+          <span *ngIf="!isC">
+            {{ (currentWeather.main.temp -273.15) * (9/5) + 32 | number: '1.0-0'}}°F
+          </span>
+
         </div>
         <div class="container">
           <div id="location">
@@ -25,6 +31,13 @@
       <img class="background-image" src="../assets/photos/sunset.jpeg">
     </div>
   </div>
+
+  <div class="container" class="col-sm-3">
+    <button id="CtoFToggle" (click)="ToggleWeatherMeasurement()" class="btn btn-primary">C°</button>
+    <button class="btn btn-primary" id="KMtoMToggle" (click)="ToggleDistanceMeasurement()">Km/h</button>
+  </div>
+
+
   <div id="current-weather-info" class="col-sm-5">
     <div class="grid-container">
       <div>
@@ -58,7 +71,12 @@
         <div class="v-separator"></div>
       </div>
       <div>
-        {{currentWeather.wind.speed}} km/h
+        <span *ngIf="isKM">
+          {{currentWeather.wind.speed}} km/h
+        </span>
+        <span *ngIf="!isKM">
+          {{ (currentWeather.wind.speed * 0.621371) | number: '1.2-2'}} m/h
+        </span>
       </div>
 
       <div>
@@ -97,6 +115,7 @@
     </div>
   </div>
 </div>
+
 
 
 <div class="container" id="table_container">
@@ -139,49 +158,167 @@
 
 
     <div class="description">Air Pressure</div>
-    <div>{{fiveDayForecast.list[1].main.temp - 273.15 | number: '1.0-0'}}°C</div>
-    <div>{{fiveDayForecast.list[3].main.temp - 273.15 | number: '1.0-0'}}°C</div>
-    <div>{{fiveDayForecast.list[5].main.temp - 273.15 | number: '1.0-0'}}°C</div>
-    <div>{{fiveDayForecast.list[7].main.temp - 273.15 | number: '1.0-0'}}°C</div>
-    <div>{{fiveDayForecast.list[15].main.temp - 273.15 | number: '1.0-0'}}°C</div>
-    <div>{{fiveDayForecast.list[23].main.temp - 273.15 | number: '1.0-0'}}°C</div>
-    <div>{{fiveDayForecast.list[31].main.temp - 273.15 | number: '1.0-0'}}°C</div>
-    <div>{{fiveDayForecast.list[36].main.temp - 273.15 | number: '1.0-0'}}°C</div>
+    <div>
+      <span *ngIf="this.isC">
+        {{fiveDayForecast.list[1].main.temp - 273.15 | number: '1.0-0'}}°C
+      </span>
+      <span *ngIf="!this.isC">
+        {{ (fiveDayForecast.list[1].main.temp - 273.15) * (9/5) + 32 | number: '1.0-0'}}°F
+      </span>
+    </div>
+
+    <div>
+      <span *ngIf="this.isC">
+        {{fiveDayForecast.list[3].main.temp - 273.15 | number: '1.0-0'}}°C
+      </span>
+      <span *ngIf="!this.isC">
+        {{ (fiveDayForecast.list[3].main.temp - 273.15) * (9/5) + 32 | number: '1.0-0'}}°F
+      </span>
+    </div>
+
+    <div>
+      <span *ngIf="this.isC">
+        {{fiveDayForecast.list[5].main.temp - 273.15 | number: '1.0-0'}}°C
+      </span>
+      <span *ngIf="!this.isC">
+        {{ (fiveDayForecast.list[5].main.temp - 273.15) * (9/5) + 32 | number: '1.0-0'}}°F
+      </span>
+    </div>
+
+    <div>
+      <span *ngIf="this.isC">
+        {{fiveDayForecast.list[7].main.temp - 273.15 | number: '1.0-0'}}°C
+      </span>
+      <span *ngIf="!this.isC">
+        {{ (fiveDayForecast.list[7].main.temp - 273.15) * (9/5) + 32 | number: '1.0-0'}}°F
+      </span>
+    </div>
+
+    <div>
+      <span *ngIf="this.isC">
+        {{fiveDayForecast.list[15].main.temp - 273.15 | number: '1.0-0'}}°C
+      </span>
+      <span *ngIf="!this.isC">
+        {{ (fiveDayForecast.list[15].main.temp - 273.15) * (9/5) + 32 | number: '1.0-0'}}°F
+      </span>
+    </div>
+
+    <div>
+      <span *ngIf="this.isC">
+        {{fiveDayForecast.list[23].main.temp - 273.15 | number: '1.0-0'}}°C
+      </span>
+      <span *ngIf="!this.isC">
+        {{ (fiveDayForecast.list[23].main.temp - 273.15) * (9/5) + 32 | number: '1.0-0'}}°F
+      </span>
+    </div>
+
+    <div>
+      <span *ngIf="this.isC">
+        {{fiveDayForecast.list[31].main.temp - 273.15 | number: '1.0-0'}}°C
+      </span>
+      <span *ngIf="!this.isC">
+        {{ (fiveDayForecast.list[31].main.temp - 273.15) * (9/5) + 32 | number: '1.0-0'}}°F
+      </span>
+    </div>
+
+    <div>
+      <span *ngIf="this.isC">
+        {{fiveDayForecast.list[36].main.temp - 273.15 | number: '1.0-0'}}°C
+      </span>
+      <span *ngIf="!this.isC">
+        {{ (fiveDayForecast.list[36].main.temp - 273.15) * (9/5) + 32 | number: '1.0-0'}}°F
+      </span> </div>
 
     <div class="description" id="table-grid-odd">Wind Speed</div>
-    <div id="table-grid-odd">{{fiveDayForecast.list[1].wind.speed}} km/h</div>
-    <div id="table-grid-odd">{{fiveDayForecast.list[3].wind.speed}} km/h</div>
-    <div id="table-grid-odd">{{fiveDayForecast.list[5].wind.speed}} km/h</div>
-    <div id="table-grid-odd">{{fiveDayForecast.list[7].wind.speed}} km/h</div>
-    <div id="table-grid-odd">{{fiveDayForecast.list[15].wind.speed}} km/h</div>
-    <div id="table-grid-odd">{{fiveDayForecast.list[23].wind.speed}} km/h</div>
-    <div id="table-grid-odd">{{fiveDayForecast.list[31].wind.speed}} km/h</div>
-    <div id="table-grid-odd">{{fiveDayForecast.list[36].wind.speed}} km/h</div>
+    <div id="table-grid-odd">
+      <span *ngIf="isKM">
+        {{fiveDayForecast.list[1].wind.speed}} km/h
+      </span>
+      <span *ngIf="!isKM">
+        {{ (fiveDayForecast.list[1].wind.speed * 0.621371) | number: '1.2-2'}} m/h
+      </span>
+    </div>
+    <div id="table-grid-odd">
+      <span *ngIf="isKM">
+        {{fiveDayForecast.list[3].wind.speed}} km/h
+      </span>
+      <span *ngIf="!isKM">
+        {{ (fiveDayForecast.list[3].wind.speed * 0.621371) | number: '1.2-2'}} m/h
+      </span>
+    </div>
+    <div id="table-grid-odd">
+      <span *ngIf="isKM">
+        {{fiveDayForecast.list[5].wind.speed}} km/h
+      </span>
+      <span *ngIf="!isKM">
+        {{ (fiveDayForecast.list[5].wind.speed * 0.621371) | number: '1.2-2'}} m/h
+      </span>
+    </div>
+    <div id="table-grid-odd">
+      <span *ngIf="isKM">
+        {{fiveDayForecast.list[7].wind.speed}} km/h
+      </span>
+      <span *ngIf="!isKM">
+        {{ (fiveDayForecast.list[7].wind.speed * 0.621371) | number: '1.2-2'}} m/h
+      </span>
+    </div>
+    <div id="table-grid-odd">
+      <span *ngIf="isKM">
+        {{fiveDayForecast.list[15].wind.speed}} km/h
+      </span>
+      <span *ngIf="!isKM">
+        {{ (fiveDayForecast.list[15].wind.speed * 0.621371) | number: '1.2-2'}} m/h
+      </span>
+    </div>
+    <div id="table-grid-odd">
+      <span *ngIf="isKM">
+        {{fiveDayForecast.list[23].wind.speed}} km/h
+      </span>
+      <span *ngIf="!isKM">
+        {{ (fiveDayForecast.list[23].wind.speed * 0.621371) | number: '1.2-2'}} m/h
+      </span>
+    </div>
+    <div id="table-grid-odd">
+      <span *ngIf="isKM">
+        {{fiveDayForecast.list[31].wind.speed}} km/h
+      </span>
+      <span *ngIf="!isKM">
+        {{ (fiveDayForecast.list[31].wind.speed * 0.621371) | number: '1.2-2'}} m/h
+      </span>
+    </div>
+    <div id="table-grid-odd">
+      <span *ngIf="isKM">
+        {{fiveDayForecast.list[36].wind.speed}} km/h
+      </span>
+      <span *ngIf="!isKM">
+        {{ (fiveDayForecast.list[36].wind.speed * 0.621371) | number: '1.2-2'}} m/h
+      </span>
+    </div>
 
     <div class="description">Wind Direction</div>
     <div>{{fiveDayForecast.list[1].wind.deg | number: '1.0-0' }}°
-      <app-wind-directions-1hr></app-wind-directions-1hr>
+      <app-wind-directions-3hrs></app-wind-directions-3hrs>
     </div>
     <div>{{fiveDayForecast.list[3].wind.deg | number: '1.0-0' }}°
-      <app-wind-directions-1hr></app-wind-directions-1hr>
+      <app-wind-directions-9hrs></app-wind-directions-9hrs>
     </div>
     <div>{{fiveDayForecast.list[5].wind.deg | number: '1.0-0' }}°
-      <app-wind-directions-1hr></app-wind-directions-1hr>
+      <app-wind-directions-15hrs></app-wind-directions-15hrs>
     </div>
     <div>{{fiveDayForecast.list[7].wind.deg | number: '1.0-0' }}°
       <app-wind-directions-1hr></app-wind-directions-1hr>
     </div>
     <div>{{fiveDayForecast.list[15].wind.deg | number: '1.0-0' }}°
-      <app-wind-directions-1hr></app-wind-directions-1hr>
+      <app-wind-directions-day2></app-wind-directions-day2>
     </div>
     <div>{{fiveDayForecast.list[23].wind.deg | number: '1.0-0' }}°
-      <app-wind-directions-1hr></app-wind-directions-1hr>
+      <app-wind-directions-day3></app-wind-directions-day3>
     </div>
     <div>{{fiveDayForecast.list[31].wind.deg | number: '1.0-0' }}°
-      <app-wind-directions-1hr></app-wind-directions-1hr>
+      <app-wind-directions-day4></app-wind-directions-day4>
     </div>
     <div>{{fiveDayForecast.list[36].wind.deg | number: '1.0-0' }}°
-      <app-wind-directions-1hr></app-wind-directions-1hr>
+      <app-wind-directions-day5></app-wind-directions-day5>
     </div>
 
     <div class="description" id="table-grid-odd">Sunrise</div>

@@ -67,8 +67,6 @@ export class WeatherService {
         window.navigator.geolocation.getCurrentPosition(
             position => {
                 this.geolocationPosition = position,
-                console.log("the position is:")
-                    console.log(position);
                 this.lat = position.coords.latitude;
                 this.lon = position.coords.longitude;
                 this.getCurrentWeather();
@@ -252,6 +250,5 @@ export class WeatherService {
     this.fiveDayForecast = this.fiveDayForecast.pipe(
       startWith(JSON.parse(localStorage[FORECAST_WEATHER_CACHE_KEY] || '[]'))
     )
-    console.log("checking")
   }
 }

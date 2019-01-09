@@ -16,17 +16,42 @@ const FORECAST_WEATHER_CACHE_KEY = 'forecastWeather';
 export class WeatherTableComponent implements OnChanges, OnInit {
 
   currentTime = Date.now();
+  private _3HrsDateTime = (new Date(this.currentTime + 10800000));
+  private _9HrsDateTime = (new Date(this.currentTime + 32400000));
+  private _15HrsDateTime = (new Date(this.currentTime + 54000000));
+
+  private _3HrsTime: string = '';
+  private _9HrsTime: string = '';
+  private _15HrsTime: string = '';
+
   fiveDayForecast: any;
   currentWeather: any = {};
-  sunRise:any;
-  sunRise2:any;
-  sunRise3:any;
-  sunRise4:any;
-  sunRise5:any;
-  sunRise6:any;
-  geolocationPosition:number;
-  private abbreviatedCountry:string = '';
-  private country:string = '';
+  sunRise: any;
+  sunRise2: any;
+  sunRise3: any;
+  sunRise4: any;
+  sunRise5: any;
+  sunRise6: any;
+  geolocationPosition: number;
+  private abbreviatedCountry: string = '';
+  private country: string = '';
+  private isC: boolean = true;
+  private isKM: boolean = true;
+  private counter: number = 0;
+  private counter2: number = 0;
+  private isDayTimeNow: boolean = false;
+  private isDayTime3hrs: boolean = false;
+  private isDayTime9hrs: boolean = false;
+  private isDayTime15hrs: boolean = false;
+
+  private sunrise1Milli: number = 0;
+  private sunset1Milli: number = 0;
+  private _3HrsTimeMilli: number = 0;
+  private _9HrsTimeMilli: number = 0;
+  private _15HrsTimeMilli: number = 0;
+
+  private currentDayTimeMilli: number = 0;
+
 
 
   constructor(private _weatherService: WeatherService) {
@@ -52,6 +77,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     let s5 = '';
     let s6 = '';
 
+
     setTimeout(() => (this._weatherService.currentLocalWeather,
       t = localStorage.getItem("currentWeather"),
       this.currentWeather = JSON.parse(t),
@@ -59,15 +85,15 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.fiveDayForecast,
       y = localStorage.getItem("forecastWeather"),
       this.fiveDayForecast = JSON.parse(y),
-      
+
       this._weatherService.sunriseSunset,
       s = localStorage.getItem("sunriseSunsetToday"),
       this.sunRise = JSON.parse(s),
-      
+
       this._weatherService.sunriseSunset,
       s2 = localStorage.getItem("sunriseSunsetTomorrow"),
       this.sunRise2 = JSON.parse(s2),
-      
+
       this._weatherService.sunriseSunset3,
       s3 = localStorage.getItem("sunriseSunsetPlus2days"),
       this.sunRise3 = JSON.parse(s3),
@@ -75,7 +101,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.sunriseSunset4,
       s4 = localStorage.getItem("sunriseSunsetPlus3days"),
       this.sunRise4 = JSON.parse(s4),
-      
+
       this._weatherService.sunriseSunset5,
       s5 = localStorage.getItem("sunriseSunsetPlus4days"),
       this.sunRise5 = JSON.parse(s5),
@@ -83,7 +109,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.sunriseSunset6,
       s6 = localStorage.getItem("sunriseSunsetPlus5days"),
       this.sunRise6 = JSON.parse(s6))
-      
+
       , 3000);
 
     setInterval(() => (this._weatherService.currentLocalWeather,
@@ -97,7 +123,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.sunriseSunset,
       s = localStorage.getItem("sunriseSunsetToday"),
       this.sunRise = JSON.parse(s),
-      
+
       this._weatherService.sunriseSunset2,
       s2 = localStorage.getItem("sunriseSunsetTomorrow"),
       this.sunRise2 = JSON.parse(s2),
@@ -109,7 +135,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.sunriseSunset4,
       s4 = localStorage.getItem("sunriseSunsetPlus3days"),
       this.sunRise4 = JSON.parse(s4),
-      
+
       this._weatherService.sunriseSunset5,
       s5 = localStorage.getItem("sunriseSunsetPlus4days"),
       this.sunRise5 = JSON.parse(s5),
@@ -117,7 +143,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.sunriseSunset6,
       s6 = localStorage.getItem("sunriseSunsetPlus5days"),
       this.sunRise6 = JSON.parse(s6))
-      , 7500);  
+      , 7500);
 
     setInterval(() => (this._weatherService.currentLocalWeather,
       t = localStorage.getItem("currentWeather"),
@@ -130,7 +156,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.sunriseSunset,
       s = localStorage.getItem("sunriseSunsetToday"),
       this.sunRise = JSON.parse(s),
-      
+
       this._weatherService.sunriseSunset2,
       s2 = localStorage.getItem("sunriseSunsetTomorrow"),
       this.sunRise2 = JSON.parse(s2),
@@ -142,7 +168,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.sunriseSunset4,
       s4 = localStorage.getItem("sunriseSunsetPlus3days"),
       this.sunRise4 = JSON.parse(s4),
-      
+
       this._weatherService.sunriseSunset5,
       s5 = localStorage.getItem("sunriseSunsetPlus4days"),
       this.sunRise5 = JSON.parse(s5),
@@ -150,7 +176,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this._weatherService.sunriseSunset6,
       s6 = localStorage.getItem("sunriseSunsetPlus5days"),
       this.sunRise6 = JSON.parse(s6))
-      , 12500);  
+      , 12500);
 
     this._weatherService.currentLocalWeather;
     t = localStorage.getItem("currentWeather");
@@ -161,33 +187,81 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     this.fiveDayForecast = JSON.parse(y);
 
     this._weatherService.sunriseSunset,
-    s = localStorage.getItem("sunriseSunsetToday"),
-    this.sunRise = JSON.parse(s);
+      s = localStorage.getItem("sunriseSunsetToday"),
+      this.sunRise = JSON.parse(s);
 
     this._weatherService.sunriseSunset2,
-    s2 = localStorage.getItem("sunriseSunsetTomorrow"),
-    this.sunRise2 = JSON.parse(s2);
+      s2 = localStorage.getItem("sunriseSunsetTomorrow"),
+      this.sunRise2 = JSON.parse(s2);
 
     this._weatherService.sunriseSunset3,
-    s3 = localStorage.getItem("sunriseSunsetPlus2days"),
-    this.sunRise3 = JSON.parse(s3);
+      s3 = localStorage.getItem("sunriseSunsetPlus2days"),
+      this.sunRise3 = JSON.parse(s3);
 
     this._weatherService.sunriseSunset4,
-    s4 = localStorage.getItem("sunriseSunsetPlus3days"),
-    this.sunRise4 = JSON.parse(s4);
-    
+      s4 = localStorage.getItem("sunriseSunsetPlus3days"),
+      this.sunRise4 = JSON.parse(s4);
+
     this._weatherService.sunriseSunset5,
-    s5 = localStorage.getItem("sunriseSunsetPlus4days"),
-    this.sunRise5 = JSON.parse(s5);
+      s5 = localStorage.getItem("sunriseSunsetPlus4days"),
+      this.sunRise5 = JSON.parse(s5);
 
     this._weatherService.sunriseSunset6,
-    s6 = localStorage.getItem("sunriseSunsetPlus5days"),
-    this.sunRise6 = JSON.parse(s6);
+      s6 = localStorage.getItem("sunriseSunsetPlus5days"),
+      this.sunRise6 = JSON.parse(s6);
 
     setTimeout(() => (
 
       this.userLocationAdd()
       , 1000));
+
+    let patt1 = /[AP]/g;
+
+    // find current time for the day in milliseconds
+    let currentDayTime = (new Date(this.currentTime)).toString().slice(16, 24).split(":");
+    this.currentDayTimeMilli = (parseInt(currentDayTime[0]) * 3600000) + (parseInt(currentDayTime[1]) * 60000) + (parseInt(currentDayTime[2]) * 100);
+
+
+    // find sunrise time in milliseconds for today
+    let sunrise1 = (this.sunRise.results.sunrise).split(patt1);
+    let sunrise1Nums = sunrise1[0];
+    let sunrise1MilliArr = sunrise1Nums.split(':');
+    this.sunrise1Milli = (sunrise1MilliArr[0] * 3600000) + (sunrise1MilliArr[1] * 60000) + (sunrise1MilliArr[2] * 100);
+
+
+    // find sunset time in milliseconds for today
+    let sunset1 = (this.sunRise.results.sunset).split(patt1);
+    let sunset1Nums = sunset1[0].trim();
+    let sunset1MilliArr = sunset1Nums.split(':');
+    this.sunset1Milli = (sunset1MilliArr[0] * 3600000) + (sunset1MilliArr[1] * 60000) + (sunset1MilliArr[2] * 100);
+
+
+    // Find time of the day in milliseconds + 3 Hrs
+    this._3HrsTime = this._3HrsDateTime.toString().slice(16, 24);
+    let _3HrsTimeMilliNum = this._3HrsTime.toString();
+    let _3HrsTimeMilliArr = _3HrsTimeMilliNum.split(':');
+    this._3HrsTimeMilli = (parseInt(_3HrsTimeMilliArr[0]) * 3600000) + (parseInt(_3HrsTimeMilliArr[1]) * 60000) + (parseInt(_3HrsTimeMilliArr[2]) * 100);
+
+
+    // Find time of the day in milliseconds + 9 Hrs
+    this._9HrsTime = this._9HrsDateTime.toString().slice(16, 24);
+    let _9HrsTimeMilliNum = this._9HrsTime.toString();
+    let _9HrsTimeMilliArr = _9HrsTimeMilliNum.split(':');
+    this._9HrsTimeMilli = (parseInt(_9HrsTimeMilliArr[0]) * 3600000) + (parseInt(_9HrsTimeMilliArr[1]) * 60000) + (parseInt(_9HrsTimeMilliArr[2]) * 100);
+
+
+    // Find time of the day in milliseconds + 15 Hrs
+    this._15HrsTime = this._15HrsDateTime.toString().slice(16, 24);
+    let _15HrsTimeMilliNum = this._15HrsTime.toString();
+    let _15HrsTimeMilliArr = _15HrsTimeMilliNum.split(':');
+    this._15HrsTimeMilli = (parseInt(_15HrsTimeMilliArr[1]) * 3600000) + (parseInt(_15HrsTimeMilliArr[1]) * 60000) + (parseInt(_15HrsTimeMilliArr[2]) * 100);
+
+
+
+    this.isNightorDayNow();
+    this.isNightorDay3Hrs();
+    this.isNightorDay9Hrs();
+    this.isNightorDay15Hrs();
   }
 
   updateTime() {
@@ -198,7 +272,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
   userLocationAdd() {
     this.abbreviatedCountry = this.currentWeather.sys.country;
 
-    switch(this.abbreviatedCountry) {
+    switch (this.abbreviatedCountry) {
       case 'AF':
         this.country = 'Afghanistan';
         break;
@@ -210,7 +284,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'AS':
         this.country = 'American Samoa';
-        break;  
+        break;
       case 'AD':
         this.country = 'Andorra';
         break;
@@ -222,11 +296,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'AQ':
         this.country = 'Antarctica';
-        break;        
+        break;
       case 'AG':
         this.country = 'Antigua and Barbuda';
-        break;         
-        
+        break;
+
       case 'AR':
         this.country = 'Argentina';
         break;
@@ -238,7 +312,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'AU':
         this.country = 'Australia';
-        break;  
+        break;
       case 'AT':
         this.country = 'Austria';
         break;
@@ -250,11 +324,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'BH':
         this.country = 'Bahrain';
-        break;        
+        break;
       case 'BD':
         this.country = 'Bangladesh';
-        break;           
-        
+        break;
+
       case 'BY':
         this.country = 'Belarus';
         break;
@@ -266,7 +340,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'BM':
         this.country = 'Bermuda';
-        break;  
+        break;
       case 'BT':
         this.country = 'Bhutan';
         break;
@@ -278,11 +352,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'BW':
         this.country = 'Botswana';
-        break;        
+        break;
       case 'BV':
         this.country = 'Bouvet Island';
-        break;         
-        
+        break;
+
       case 'BR':
         this.country = 'Brazil';
         break;
@@ -294,7 +368,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'BG':
         this.country = 'Bulgaria';
-        break;  
+        break;
       case 'BF':
         this.country = 'Burkina Faso';
         break;
@@ -306,11 +380,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'CA':
         this.country = 'Canada';
-        break;        
+        break;
       case 'CV':
         this.country = 'Cape Verde';
-        break;    
-        
+        break;
+
       case 'KY':
         this.country = 'Cayman Islands';
         break;
@@ -322,7 +396,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'CL':
         this.country = 'Chile';
-        break;  
+        break;
       case 'CN':
         this.country = 'China';
         break;
@@ -334,11 +408,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'CO':
         this.country = 'Colombia';
-        break;        
+        break;
       case 'KM':
         this.country = 'Comoros';
-        break;         
-        
+        break;
+
       case 'CG':
         this.country = 'Congo';
         break;
@@ -350,7 +424,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'CR':
         this.country = 'Costa Rica';
-        break;  
+        break;
       case 'CI':
         this.country = "Côte D'Ivoire";
         break;
@@ -362,11 +436,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'CY':
         this.country = 'Cyprus';
-        break;        
+        break;
       case 'CZ':
         this.country = 'Czech Republic';
-        break;           
-        
+        break;
+
       case 'DK':
         this.country = 'Denmark';
         break;
@@ -378,7 +452,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'DO':
         this.country = 'Dominican Republic';
-        break;  
+        break;
       case 'EC':
         this.country = 'Ecuador';
         break;
@@ -390,11 +464,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'GQ':
         this.country = 'Equatorial Guinea';
-        break;        
+        break;
       case 'ER':
         this.country = 'Eritrea';
-        break;         
-        
+        break;
+
       case 'EE':
         this.country = 'Estonia';
         break;
@@ -406,7 +480,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'FO':
         this.country = 'Faroe Islands';
-        break;  
+        break;
       case 'FJ':
         this.country = 'Fiji';
         break;
@@ -418,11 +492,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'TF':
         this.country = 'French Southern Territories';
-        break;        
+        break;
       case 'GA':
         this.country = 'Gabon';
-        break;   
-        
+        break;
+
       case 'GM':
         this.country = 'Gambia';
         break;
@@ -434,7 +508,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'GH':
         this.country = 'Ghana';
-        break;  
+        break;
       case 'GI':
         this.country = 'Gibraltar';
         break;
@@ -446,11 +520,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'GD':
         this.country = 'Grenada';
-        break;        
+        break;
       case 'GP':
         this.country = 'Guadeloupe';
-        break;         
-        
+        break;
+
       case 'GU':
         this.country = 'Guam';
         break;
@@ -462,7 +536,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'GW':
         this.country = 'Guinea-Bissau';
-        break;  
+        break;
       case 'GY':
         this.country = 'Guyana';
         break;
@@ -474,11 +548,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'HN':
         this.country = 'Honduras';
-        break;        
+        break;
       case 'HK':
         this.country = 'Hong Kong';
-        break;  
-        
+        break;
+
       case 'HU':
         this.country = 'Hungary';
         break;
@@ -490,7 +564,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'ID':
         this.country = 'Indonesia';
-        break;  
+        break;
       case 'IR':
         this.country = 'Iran, Islamic Republic of';
         break;
@@ -502,11 +576,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'IL':
         this.country = 'Israel';
-        break;        
+        break;
       case 'IT':
         this.country = 'Italy';
-        break;         
-        
+        break;
+
       case 'JM':
         this.country = 'Jamaica';
         break;
@@ -518,7 +592,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'KZ':
         this.country = 'Kazakhstan';
-        break;  
+        break;
       case 'KE':
         this.country = 'Kenya';
         break;
@@ -530,11 +604,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'KR':
         this.country = 'Korea, Republic of';
-        break;        
+        break;
       case 'KW':
         this.country = 'Kuwait';
-        break;           
-        
+        break;
+
       case 'KG':
         this.country = 'Kyrgyzstan';
         break;
@@ -546,7 +620,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'LB':
         this.country = 'Lebanon';
-        break;  
+        break;
       case 'LS':
         this.country = 'Lesotho';
         break;
@@ -558,11 +632,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'LI':
         this.country = 'Liechtenstein';
-        break;        
+        break;
       case 'LT':
         this.country = 'Lithuania';
-        break;         
-        
+        break;
+
       case 'LU':
         this.country = 'Luxembourg';
         break;
@@ -574,7 +648,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'MK':
         this.country = 'Macedonia, The Former Yugoslav Republic of';
-        break;  
+        break;
       case 'MG':
         this.country = 'Madagascar';
         break;
@@ -586,11 +660,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'MV':
         this.country = 'Maldives';
-        break;        
+        break;
       case 'ML':
         this.country = 'Mali';
-        break; 
-        
+        break;
+
       case 'MT':
         this.country = 'Malta';
         break;
@@ -602,7 +676,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'MR':
         this.country = 'Mauritania';
-        break;  
+        break;
       case 'MU':
         this.country = 'Mauritius';
         break;
@@ -614,11 +688,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'FM':
         this.country = 'Micronesia, Federated States of';
-        break;        
+        break;
       case 'MD':
         this.country = 'Moldava, Republic of';
-        break;           
-        
+        break;
+
       case 'MC':
         this.country = 'Monaco';
         break;
@@ -630,7 +704,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'MA':
         this.country = 'Morocco';
-        break;  
+        break;
       case 'MZ':
         this.country = 'Mozambique';
         break;
@@ -642,11 +716,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'NR':
         this.country = 'Nauru';
-        break;        
+        break;
       case 'NP':
         this.country = 'Nepal';
-        break;         
-        
+        break;
+
       case 'NL':
         this.country = 'Netherlands';
         break;
@@ -658,7 +732,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'NZ':
         this.country = 'New Zealand';
-        break;  
+        break;
       case 'NI':
         this.country = 'Nicaragua';
         break;
@@ -670,12 +744,12 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'NU':
         this.country = 'Niue';
-        break;        
+        break;
       case 'NF':
         this.country = 'Norfolk Island';
-        break; 
+        break;
 
-        
+
       case 'MP':
         this.country = 'Northern Mariana Islands';
         break;
@@ -687,7 +761,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'PK':
         this.country = 'Pakistan';
-        break;  
+        break;
       case 'PW':
         this.country = 'Palau';
         break;
@@ -699,11 +773,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'PG':
         this.country = 'Papua New Guinea';
-        break;        
+        break;
       case 'PY':
         this.country = 'Paraguay';
-        break;           
-        
+        break;
+
       case 'PE':
         this.country = 'Peru';
         break;
@@ -715,7 +789,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'PL':
         this.country = 'Poland';
-        break;  
+        break;
       case 'PT':
         this.country = 'Portugal';
         break;
@@ -727,11 +801,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'RE':
         this.country = 'Réunion';
-        break;        
+        break;
       case 'RO':
         this.country = 'Romania';
-        break;         
-        
+        break;
+
       case 'RU':
         this.country = 'Russian Federation';
         break;
@@ -743,7 +817,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'HN':
         this.country = 'Saint Kitts and Nevis';
-        break;  
+        break;
       case 'LC':
         this.country = 'Saint Lucia';
         break;
@@ -755,12 +829,12 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'WS':
         this.country = 'Samoa';
-        break;        
+        break;
       case 'SM':
         this.country = 'San Marino';
-        break;     
-        
-        
+        break;
+
+
       case 'ST':
         this.country = 'Sao Tome and Principe';
         break;
@@ -772,7 +846,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'CS':
         this.country = 'Serbia and Montenegro';
-        break;  
+        break;
       case 'SC':
         this.country = 'Seychelles';
         break;
@@ -784,11 +858,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'SK':
         this.country = 'Slovakia';
-        break;        
+        break;
       case 'SI':
         this.country = 'Slovenia';
-        break;           
-        
+        break;
+
       case 'SB':
         this.country = 'Solomon Islands';
         break;
@@ -800,7 +874,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'GS':
         this.country = 'South Georgia and South Sandwich Islands';
-        break;  
+        break;
       case 'ES':
         this.country = 'Spain';
         break;
@@ -812,11 +886,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'SR':
         this.country = 'Suriname';
-        break;        
+        break;
       case 'SJ':
         this.country = 'Svalbard and Jan Mayen';
-        break;         
-        
+        break;
+
       case 'SZ':
         this.country = 'Swaziland';
         break;
@@ -828,7 +902,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'SY':
         this.country = 'Syrian Arab Republic';
-        break;  
+        break;
       case 'TW':
         this.country = 'Taiwan, Republic of China';
         break;
@@ -840,12 +914,12 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'TH':
         this.country = 'Thailand';
-        break;        
+        break;
       case 'TL':
         this.country = 'Timor-Leste';
-        break;  
-        
-        
+        break;
+
+
       case 'TG':
         this.country = 'Togo';
         break;
@@ -857,7 +931,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'TT':
         this.country = 'Trinidad and Tobago';
-        break;  
+        break;
       case 'TN':
         this.country = 'Tunisia';
         break;
@@ -869,11 +943,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'TC':
         this.country = 'Turks and Caicos Islands';
-        break;        
+        break;
       case 'TV':
         this.country = 'Tuvalu';
-        break;           
-        
+        break;
+
       case 'UG':
         this.country = 'Uganda';
         break;
@@ -885,7 +959,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'GB':
         this.country = 'United Kingdom';
-        break;  
+        break;
       case 'US':
         this.country = 'United States';
         break;
@@ -897,11 +971,11 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'UZ':
         this.country = 'Uzbekistan';
-        break;        
+        break;
       case 'VU':
         this.country = 'Vanuatu';
-        break;         
-        
+        break;
+
       case 'VN':
         this.country = 'Vietnam';
         break;
@@ -913,7 +987,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'WF':
         this.country = 'Wallis and Futuna';
-        break;  
+        break;
       case 'EH':
         this.country = 'Western Sahara';
         break;
@@ -922,13 +996,91 @@ export class WeatherTableComponent implements OnChanges, OnInit {
         break;
       case 'ZW':
         this.country = 'Zimbabwe';
-        break;           
+        break;
 
-
-      default: 
+      default:
         this.country = '';
     }
-    console.log(this.country);
+  }
+
+
+  ToggleWeatherMeasurement() {
+    this.counter++;
+    if (this.counter % 2 === 0) {
+      this.isC = true;
+      document.getElementById("CtoFToggle").innerText = "C°";
+    } else {
+      this.isC = false;
+      document.getElementById("CtoFToggle").innerText = "F°";
+    }
+    console.log("toggle button clicked");
+    console.log("counter is " + this.counter);
+    console.log("this.isC is " + this.isC);
+    return this.isC;
+  }
+
+  ToggleDistanceMeasurement() {
+    this.counter2++;
+    if (this.counter2 % 2 === 0) {
+      this.isKM = true;
+      document.getElementById("KMtoMToggle").innerText = "Km/h";
+
+    } else {
+      this.isKM = false;
+      document.getElementById("KMtoMToggle").innerText = "M/h";
+    }
+    return this.isKM;
+  }
+
+  isNightorDayNow() {
+    if (this.currentTime > this.sunrise1Milli && this.currentTime < this.sunset1Milli) {
+      this.isDayTimeNow = true;
+    } else {
+      this.isDayTimeNow = false;
+    }
+  }
+
+  isNightorDay3Hrs() {
+    let d = new Date();
+    let n1 = d.getDay();
+    let n = this._3HrsDateTime.getDay();
+    let local3HrTimeMilli = this._3HrsTimeMilli;
+
+    if (n1 < n) {
+      local3HrTimeMilli = this._3HrsTimeMilli + this.currentDayTimeMilli - 10800000;
+    }
+    if (local3HrTimeMilli > this.sunrise1Milli && local3HrTimeMilli > this.sunset1Milli) {
+      this.isDayTime3hrs = true;
+    }
+  }
+
+
+  isNightorDay9Hrs() {
+    let d = new Date();
+    let n1 = d.getDay();
+    let n = this._9HrsDateTime.getDay();
+    let local9HrTimeMilli = this._9HrsTimeMilli;
+
+    if (n1 < n) {
+      local9HrTimeMilli = this._15HrsTimeMilli + this.currentDayTimeMilli - 32400000;
+    }
+    if (local9HrTimeMilli > this.sunrise1Milli && local9HrTimeMilli > this.sunset1Milli) {
+      this.isDayTime9hrs = true;
+    }
+  }
+
+  isNightorDay15Hrs() {
+    let d = new Date();
+    let n1 = d.getDay();
+    let n = this._15HrsDateTime.getDay();
+    let local15HrTimeMilli = this._15HrsTimeMilli;
+
+    if (n1 < n) {
+      local15HrTimeMilli = this._15HrsTimeMilli + this.currentDayTimeMilli - 86400000;
+    }
+    if (local15HrTimeMilli > this.sunrise1Milli && local15HrTimeMilli > this.sunset1Milli) {
+      this.isDayTime15hrs = true;
+    }
   }
 
 }
