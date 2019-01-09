@@ -197,6 +197,7 @@ $color-black-translucent: rgba(0, 0, 0, 0.34);
   display: grid;
   grid-auto-rows: 1fr 2fr .1fr 1.2fr .5fr 1.4fr 3.7fr 2fr .7fr 1fr; 
   height: 30rem;
+  min-width: 14rem;
 }
 
 #left-grid > div {

@@ -233,13 +233,18 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     let sunset1 = (this.sunRise.results.sunset).split(patt1);
     let sunset1Nums = sunset1[0].trim();
     let sunset1MilliArr = sunset1Nums.split(':');
-    this.sunset1Milli = (sunset1MilliArr[0] * 3600000) + (sunset1MilliArr[1] * 60000) + (sunset1MilliArr[2] * 100);
+    let b = [];
+    for( var i = 0; i < sunset1MilliArr.length; i++) {
+      b[i] = parseInt(sunset1MilliArr[i]);
+    }
+    this.sunset1Milli = ((b[0]+12) * 3600000) + (b[1] * 60000) + (b[2] * 100);
 
 
     // Find time of the day in milliseconds + 3 Hrs
     this._3HrsTime = this._3HrsDateTime.toString().slice(16, 24);
     let _3HrsTimeMilliNum = this._3HrsTime.toString();
     let _3HrsTimeMilliArr = _3HrsTimeMilliNum.split(':');
+    // console.log()
     this._3HrsTimeMilli = (parseInt(_3HrsTimeMilliArr[0]) * 3600000) + (parseInt(_3HrsTimeMilliArr[1]) * 60000) + (parseInt(_3HrsTimeMilliArr[2]) * 100);
 
 
@@ -254,9 +259,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     this._15HrsTime = this._15HrsDateTime.toString().slice(16, 24);
     let _15HrsTimeMilliNum = this._15HrsTime.toString();
     let _15HrsTimeMilliArr = _15HrsTimeMilliNum.split(':');
-    this._15HrsTimeMilli = (parseInt(_15HrsTimeMilliArr[1]) * 3600000) + (parseInt(_15HrsTimeMilliArr[1]) * 60000) + (parseInt(_15HrsTimeMilliArr[2]) * 100);
-
-
+    this._15HrsTimeMilli = (parseInt(_15HrsTimeMilliArr[0]) * 3600000) + (parseInt(_15HrsTimeMilliArr[1]) * 60000) + (parseInt(_15HrsTimeMilliArr[2]) * 100);
 
     this.isNightorDayNow();
     this.isNightorDay3Hrs();
@@ -1013,9 +1016,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
       this.isC = false;
       document.getElementById("CtoFToggle").innerText = "F°";
     }
-    console.log("toggle button clicked");
-    console.log("counter is " + this.counter);
-    console.log("this.isC is " + this.isC);
+    console.log("for wind direction currently " + this.fiveDayForecast.list[0].wind.deg);
     return this.isC;
   }
 
@@ -1033,7 +1034,7 @@ export class WeatherTableComponent implements OnChanges, OnInit {
   }
 
   isNightorDayNow() {
-    if (this.currentTime > this.sunrise1Milli && this.currentTime < this.sunset1Milli) {
+    if (this.currentDayTimeMilli > this.sunrise1Milli && this.currentDayTimeMilli < this.sunset1Milli) {
       this.isDayTimeNow = true;
     } else {
       this.isDayTimeNow = false;
@@ -1047,26 +1048,19 @@ export class WeatherTableComponent implements OnChanges, OnInit {
     let local3HrTimeMilli = this._3HrsTimeMilli;
 
     if (n1 < n) {
-      local3HrTimeMilli = this._3HrsTimeMilli + this.currentDayTimeMilli - 10800000;
+      local3HrTimeMilli = this._3HrsTimeMilli + this.currentDayTimeMilli - 86400000;
     }
-    if (local3HrTimeMilli > this.sunrise1Milli && local3HrTimeMilli > this.sunset1Milli) {
+    if (local3HrTimeMilli > this.sunrise1Milli && local3HrTimeMilli < this.sunset1Milli) {
       this.isDayTime3hrs = true;
     } else {
-      this.isDayTime15hrs = false;
+      this.isDayTime3hrs = false;
     }
   }
 
 
   isNightorDay9Hrs() {
-    let d = new Date();
-    let n1 = d.getDay();
-    let n = this._9HrsDateTime.getDay();
-    let local9HrTimeMilli = this._9HrsTimeMilli;
 
-    if (n1 < n) {
-      local9HrTimeMilli = this._15HrsTimeMilli + this.currentDayTimeMilli - 32400000;
-    }
-    if (local9HrTimeMilli > this.sunrise1Milli && local9HrTimeMilli > this.sunset1Milli) {
+    if (this._9HrsTimeMilli > this.sunrise1Milli && this._9HrsTimeMilli < this.sunset1Milli) {
       this.isDayTime9hrs = true;
     } else {
       this.isDayTime15hrs = false;
@@ -1074,15 +1068,8 @@ export class WeatherTableComponent implements OnChanges, OnInit {
   }
 
   isNightorDay15Hrs() {
-    let d = new Date();
-    let n1 = d.getDay();
-    let n = this._15HrsDateTime.getDay();
-    let local15HrTimeMilli = this._15HrsTimeMilli;
 
-    if (n1 < n) {
-      local15HrTimeMilli = this._15HrsTimeMilli + this.currentDayTimeMilli - 86400000;
-    }
-    if (local15HrTimeMilli > this.sunrise1Milli && local15HrTimeMilli > this.sunset1Milli) {
+    if (this._15HrsTimeMilli > this.sunrise1Milli && this._15HrsTimeMilli < this.sunset1Milli) {
       this.isDayTime15hrs = true;
     } else {
       this.isDayTime15hrs = false;
